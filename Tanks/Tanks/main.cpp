@@ -59,7 +59,6 @@ void drawScene(void)
 		*scene[i]->getModel() = scale(*scene[i]->getModel(), vec3(scene[i]->getScaleValue(), scene[i]->getScaleValue(), 1.0f));
 		*scene[i]->getModel() = rotate(*scene[i]->getModel(), radians(scene[i]->getRotationValue()), vec3(0.0f, 0.0f, 1.0f));
 
-
 		glUniformMatrix4fv(MatProj, 1, GL_FALSE, value_ptr(Projection));
 		glUniformMatrix4fv(MatModel, 1, GL_FALSE, value_ptr(*scene[i]->getModel()));
 		glBindVertexArray(*scene[i]->getVAO());
@@ -87,5 +86,6 @@ int main(int argc, char* argv[])
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glutTimerFunc(50, update, 0);
 	glutKeyboardFunc(keyboard);
+	glutPassiveMotionFunc(mouseMovement);
 	glutMainLoop();
 }

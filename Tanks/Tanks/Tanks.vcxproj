@@ -19,9 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source files\entities.cpp" />
     <ClCompile Include="source files\geometry.cpp" />
@@ -40,6 +37,9 @@
     <ClInclude Include="header files\ShaderMaker.h" />
     <ClInclude Include="header files\shape_reader.h" />
     <ClInclude Include="header files\VAO_manager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

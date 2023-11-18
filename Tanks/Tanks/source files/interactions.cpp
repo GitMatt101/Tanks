@@ -1,4 +1,5 @@
 #include "../header files/interactions.h"
+#include <math.h>
 
 #define SHIFT_VALUE 10.0f
 
@@ -30,4 +31,11 @@ void keyboard(unsigned char key, int x, int y)
 		default:
 			break;
 	}
+}
+
+void mouseMovement(int x, int y)
+{
+	float m = ((float)(720 - y) - (720 / 2 + player.getYShiftValue())) / ((float)x - (1280 / 2 + player.getXShiftValue()));
+	float angle = atan(m);
+	player.getCannon()->setRotationValue(90.0f + degrees(angle));
 }
