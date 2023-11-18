@@ -21,6 +21,26 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="source files\entities.cpp" />
+    <ClCompile Include="source files\geometry.cpp" />
+    <ClCompile Include="source files\hermite.cpp" />
+    <ClCompile Include="source files\interactions.cpp" />
+    <ClCompile Include="source files\ShaderMaker.cpp" />
+    <ClCompile Include="source files\shape_reader.cpp" />
+    <ClCompile Include="source files\VAO_manager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="header files\entities.h" />
+    <ClInclude Include="header files\geometry.h" />
+    <ClInclude Include="header files\hermite.h" />
+    <ClInclude Include="header files\interactions.h" />
+    <ClInclude Include="header files\lib.h" />
+    <ClInclude Include="header files\ShaderMaker.h" />
+    <ClInclude Include="header files\shape_reader.h" />
+    <ClInclude Include="header files\VAO_manager.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -105,7 +125,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>

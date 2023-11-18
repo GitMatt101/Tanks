@@ -17,4 +17,56 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source files\entities.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="source files\geometry.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="source files\hermite.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="source files\interactions.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="source files\ShaderMaker.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="source files\shape_reader.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="source files\VAO_manager.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="header files\entities.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="header files\geometry.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="header files\hermite.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="header files\interactions.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="header files\lib.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="header files\ShaderMaker.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="header files\shape_reader.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="header files\VAO_manager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
