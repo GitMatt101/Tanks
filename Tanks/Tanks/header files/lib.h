@@ -12,6 +12,7 @@
 #include "shape_reader.h"
 #include "hermite.h"
 #include "entities.h"
+#include "interactions.h"
  
 using namespace glm;
 using namespace std;

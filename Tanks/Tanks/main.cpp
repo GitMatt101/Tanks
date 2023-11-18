@@ -14,7 +14,8 @@ static unsigned int programId;
 mat4 Projection;
 GLuint MatProj, MatModel;
 
-vector<Entity> scene;
+vector<Entity*> scene;
+Player player;
 
 void INIT_SHADER(void)
 {
@@ -27,10 +28,10 @@ void INIT_SHADER(void)
 
 void INIT_VAO(void)
 {
-	Player player;
 	player.initVAO();
-	scene.push_back(player);
-	scene.push_back(*player.getCannon());
+	player.getCannon()->initVAO();
+	scene.push_back(&player);
+	scene.push_back(player.getCannon());
 
 	Projection = ortho(0.0f, float(WIDTH), 0.0f, float(HEIGHT));
 	MatProj = glGetUniformLocation(programId, "Projection");
@@ -41,8 +42,8 @@ void INIT_VAO(void)
 
 void update(int value)
 {
-	for (int i = 0; i < scene.size(); i++)
-		scene[i].updateVAO();
+	player.updateVAO();
+	player.getCannon()->updateVAO();
 	glutTimerFunc(50, update, 0);
 	glutPostRedisplay();
 }
@@ -53,18 +54,18 @@ void drawScene(void)
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	for (int i = 0; i < scene.size(); i++) {
-		*scene[i].getModel() = mat4(1.0);
-		*scene[i].getModel() = translate(*scene[i].getModel(), vec3((float)WIDTH / 2 + scene[i].getXShiftValue(), (float)HEIGHT / 2 + scene[i].getYShiftValue(), 0.0f));
-		*scene[i].getModel() = scale(*scene[i].getModel(), vec3(scene[i].getScaleValue(), scene[i].getScaleValue(), 1.0f));
-		*scene[i].getModel() = rotate(*scene[i].getModel(), radians(scene[i].getRotationValue()), vec3(0.0f, 0.0f, 1.0f));
+		*scene[i]->getModel() = mat4(1.0);
+		*scene[i]->getModel() = translate(*scene[i]->getModel(), vec3((float)WIDTH / 2 + scene[i]->getXShiftValue(), (float)HEIGHT / 2 + scene[i]->getYShiftValue(), 0.0f));
+		*scene[i]->getModel() = scale(*scene[i]->getModel(), vec3(scene[i]->getScaleValue(), scene[i]->getScaleValue(), 1.0f));
+		*scene[i]->getModel() = rotate(*scene[i]->getModel(), radians(scene[i]->getRotationValue()), vec3(0.0f, 0.0f, 1.0f));
+
 
 		glUniformMatrix4fv(MatProj, 1, GL_FALSE, value_ptr(Projection));
-		glUniformMatrix4fv(MatModel, 1, GL_FALSE, value_ptr(*scene[i].getModel()));
-		glBindVertexArray(*scene[i].getVAO());
-		glDrawArrays(GL_TRIANGLE_FAN, 0, scene[i].getNumberOfVertices());
+		glUniformMatrix4fv(MatModel, 1, GL_FALSE, value_ptr(*scene[i]->getModel()));
+		glBindVertexArray(*scene[i]->getVAO());
+		glDrawArrays(GL_TRIANGLE_FAN, 0, scene[i]->getNumberOfVertices());
 		glBindVertexArray(0);
 	}
-
 	glutSwapBuffers();
 }
 
@@ -85,5 +86,6 @@ int main(int argc, char* argv[])
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glutTimerFunc(50, update, 0);
+	glutKeyboardFunc(keyboard);
 	glutMainLoop();
 }
