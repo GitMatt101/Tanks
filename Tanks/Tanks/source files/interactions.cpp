@@ -10,6 +10,8 @@ void moveTank(float rotationValue, float xShift, float yShift)
 	player.setYShiftValue(player.getYShiftValue() + yShift);
 	player.getCannon()->setXShiftValue(player.getCannon()->getXShiftValue() + xShift);
 	player.getCannon()->setYShiftValue(player.getCannon()->getYShiftValue() + yShift);
+	player.getCockpit()->setXShiftValue(player.getCockpit()->getXShiftValue() + xShift);
+	player.getCockpit()->setYShiftValue(player.getCockpit()->getYShiftValue() + yShift);
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -39,12 +41,12 @@ void mouseMovement(int x, int y)
 	float angle = degrees(atan(m));
 	float xShift = cos(radians(angle)) * player.getCannon()->getScaleValue();
 	float yShift = sin(radians(angle)) * player.getCannon()->getScaleValue();
-	if (x < width / 2 + player.getXShiftValue())
+	if (x < (float)width / 2 + player.getXShiftValue())
 	{
 		xShift = -xShift;
 		yShift = -yShift;
 	}
 	player.getCannon()->setXShiftValue(player.getXShiftValue() + xShift);
 	player.getCannon()->setYShiftValue(player.getYShiftValue() + yShift);
-	player.getCannon()->setRotationValue(90.0f + angle);
+	player.getCannon()->setRotationValue(-90.0f + angle);
 }

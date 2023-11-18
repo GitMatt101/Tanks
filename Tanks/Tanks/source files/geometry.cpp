@@ -2,17 +2,15 @@
 
 #define PI 3.14159265358979323846
 
-void create_circle(float cx, float cy, float rx, float ry, Shape* shape, vec4 color1, vec4 color2)
+vector<vec3> createCircle(vec3 center, float rx, float ry, int precision)
 {
-	float step = 2 * PI / shape->nTriangles;
-	shape->vertices.push_back(vec3(cx, cy, 0.0f));
-	shape->colors.push_back(color1);
-	for (int i = 0; i <= shape->nTriangles + 2; i++) {
+	float step = 2 * PI / precision;
+	vector<vec3> vertices;
+	for (int i = 0; i <= precision + 2; i++) {
 		float theta_i = (float)i * step;
-		shape->vertices.push_back(vec3(cx + rx * cos(theta_i), cy + ry * sin(theta_i), 0.0f));
-		shape->colors.push_back(color2);
+		vertices.push_back(vec3(center.x + rx * cos(theta_i), center.y + ry * sin(theta_i), 0.0f));
 	}
-	shape->nVertices = shape->vertices.size();
+	return vertices;
 }
 
 void create_moon(float cx, float cy, float rx, float ry, Shape* shape, vec4 color1, vec4 color2)

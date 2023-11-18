@@ -30,8 +30,10 @@ void INIT_VAO(void)
 {
 	player.initVAO();
 	player.getCannon()->initVAO();
+	player.getCockpit()->initVAO();
 	scene.push_back(&player);
 	scene.push_back(player.getCannon());
+	scene.push_back(player.getCockpit());
 
 	Projection = ortho(0.0f, float(width), 0.0f, float(height));
 	MatProj = glGetUniformLocation(programId, "Projection");
@@ -43,7 +45,8 @@ void INIT_VAO(void)
 void update(int value)
 {
 	player.updateVAO();
-	player.getCannon()->updateVAO();
+	for (int i = 0; i < scene.size(); i++)
+		scene[i]->updateVAO();
 	glutTimerFunc(50, update, 0);
 	glutPostRedisplay();
 }

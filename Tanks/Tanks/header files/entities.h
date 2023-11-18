@@ -9,13 +9,6 @@
 using namespace glm;
 using namespace std;
 
-enum Direction {
-	UP,
-	RIGHT,
-	DOWN,
-	LEFT
-};
-
 typedef struct {
 	vec3 cornerBot;
 	vec3 cornerTop;
@@ -71,13 +64,13 @@ class Entity {
 class Player : public Entity {
 
 	private:
-		Direction direction;
 		Entity cannon;
+		Entity cockpit;
 
 	public:
 		Player();
-		Direction getDirection();
 		Entity* getCannon();
+		Entity* getCockpit();
 		void shoot();
 
 };

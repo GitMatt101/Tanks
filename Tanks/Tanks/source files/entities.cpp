@@ -151,13 +151,13 @@ Hitbox Entity::getHitbox()
 Player::Player() 
 {
 	Entity();
-	vec4 color1 = vec4(0.0f, 0.3f, 0.0f, 1.0f);
-	vec4 color2 = vec4(0.7f, 0.2f, 0.2f, 1.0f);
+	vec4 color1 = vec4(0.0f, 0.2f, 0.0f, 1.0f);
+	vec4 color2 = vec4(0.6f, 0.2f, 0.2f, 1.0f);
 	vec3 center = vec3(0.0f, 0.0f, 0.0f);
 	createPolygonalShape(createRectangle(1.2f, 1.8f), center, color1, color2);
-	direction = RIGHT;
-	cannon.createPolygonalShape(createRectangle(0.2f, 1.6f), vec3(0.0f, 0.0f, 0.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f));
+	cannon.createPolygonalShape(createRectangle(0.2f, 1.6f), vec3(0.0f, 0.0f, 0.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f));
 	cannon.setYShiftValue((cannon.getHitbox().cornerTop.y - cannon.getHitbox().cornerBot.y) / 2 * cannon.getScaleValue());
+	cockpit.createPolygonalShape(createCircle(vec3(0.0f, 0.0f, 0.0f), 0.3f, 0.3f, 100), vec3(0.0f, 0.0f, 0.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f));
 }
 
 Entity* Player::getCannon()
@@ -165,7 +165,7 @@ Entity* Player::getCannon()
 	return &cannon;
 }
 
-Direction Player::getDirection()
+Entity* Player::getCockpit()
 {
-	return direction;
+	return &cockpit;
 }
