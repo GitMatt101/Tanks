@@ -3,6 +3,9 @@
 
 extern Player player;
 
+extern const int width;
+extern const int height;
+
 void keyboard(unsigned char key, int x, int y);
 
 void mouseMovement(int x, int y);

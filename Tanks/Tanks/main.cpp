@@ -6,8 +6,8 @@
 #include "header files/lib.h"
 #pragma warning(disable : 4996)
 
-#define WIDTH 1280
-#define HEIGHT 720
+const int width = 1280;
+const int height = 720;
 
 static unsigned int programId;
 
@@ -33,11 +33,11 @@ void INIT_VAO(void)
 	scene.push_back(&player);
 	scene.push_back(player.getCannon());
 
-	Projection = ortho(0.0f, float(WIDTH), 0.0f, float(HEIGHT));
+	Projection = ortho(0.0f, float(width), 0.0f, float(height));
 	MatProj = glGetUniformLocation(programId, "Projection");
 	MatModel = glGetUniformLocation(programId, "Model");
 
-	glViewport(0, 0, WIDTH, HEIGHT);
+	glViewport(0, 0, width, height);
 }
 
 void update(int value)
@@ -55,7 +55,7 @@ void drawScene(void)
 
 	for (int i = 0; i < scene.size(); i++) {
 		*scene[i]->getModel() = mat4(1.0);
-		*scene[i]->getModel() = translate(*scene[i]->getModel(), vec3((float)WIDTH / 2 + scene[i]->getXShiftValue(), (float)HEIGHT / 2 + scene[i]->getYShiftValue(), 0.0f));
+		*scene[i]->getModel() = translate(*scene[i]->getModel(), vec3((float)width / 2 + scene[i]->getXShiftValue(), (float)height / 2 + scene[i]->getYShiftValue(), 0.0f));
 		*scene[i]->getModel() = scale(*scene[i]->getModel(), vec3(scene[i]->getScaleValue(), scene[i]->getScaleValue(), 1.0f));
 		*scene[i]->getModel() = rotate(*scene[i]->getModel(), radians(scene[i]->getRotationValue()), vec3(0.0f, 0.0f, 1.0f));
 
@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
 	glutInitContextVersion(4, 0);
 	glutInitContextProfile(GLUT_CORE_PROFILE);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowSize(WIDTH, HEIGHT);
+	glutInitWindowSize(width, height);
 	glutInitWindowPosition(50, 50);
 	glutCreateWindow("Tanks");
 	glutDisplayFunc(drawScene);

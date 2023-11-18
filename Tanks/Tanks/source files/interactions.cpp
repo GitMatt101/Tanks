@@ -35,7 +35,16 @@ void keyboard(unsigned char key, int x, int y)
 
 void mouseMovement(int x, int y)
 {
-	float m = ((float)(720 - y) - (720 / 2 + player.getYShiftValue())) / ((float)x - (1280 / 2 + player.getXShiftValue()));
-	float angle = atan(m);
-	player.getCannon()->setRotationValue(90.0f + degrees(angle));
+	float m = ((float)(height - y) - ((float)height / 2 + player.getYShiftValue())) / ((float)x - ((float)width / 2 + player.getXShiftValue()));
+	float angle = degrees(atan(m));
+	float xShift = cos(radians(angle)) * player.getCannon()->getScaleValue();
+	float yShift = sin(radians(angle)) * player.getCannon()->getScaleValue();
+	if (x < width / 2 + player.getXShiftValue())
+	{
+		xShift = -xShift;
+		yShift = -yShift;
+	}
+	player.getCannon()->setXShiftValue(player.getXShiftValue() + xShift);
+	player.getCannon()->setYShiftValue(player.getYShiftValue() + yShift);
+	player.getCannon()->setRotationValue(90.0f + angle);
 }
