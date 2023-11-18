@@ -159,7 +159,6 @@ Player::Player()
 	cannon.createPolygonalShape(createRectangle(0.2f, 1.6f), vec3(0.0f, 0.0f, 0.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f));
 	cannon.initVAO();
 	cannon.setYShiftValue((cannon.getHitbox().cornerTop.y - cannon.getHitbox().cornerBot.y) / 2 * cannon.getScaleValue());
-	printf("\n%f\n", (cannon.getHitbox().cornerTop.y - cannon.getHitbox().cornerBot.y) / 2);
 }
 
 Entity* Player::getCannon()
