@@ -146,26 +146,83 @@ Hitbox Entity::getHitbox()
 	return hitbox;
 }
 
+void Entity::disableAndDelete()
+{
+	disableVAO(this);
+}
+
 
 
 Player::Player() 
 {
-	Entity();
 	vec4 color1 = vec4(0.0f, 0.2f, 0.0f, 1.0f);
 	vec4 color2 = vec4(0.6f, 0.2f, 0.2f, 1.0f);
 	vec3 center = vec3(0.0f, 0.0f, 0.0f);
 	createPolygonalShape(createRectangle(1.2f, 1.8f), center, color1, color2);
-	cannon.createPolygonalShape(createRectangle(0.2f, 1.6f), vec3(0.0f, 0.0f, 0.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f));
-	cannon.setYShiftValue((cannon.getHitbox().cornerTop.y - cannon.getHitbox().cornerBot.y) / 2 * cannon.getScaleValue());
-	cockpit.createPolygonalShape(createCircle(vec3(0.0f, 0.0f, 0.0f), 0.3f, 0.3f, 100), vec3(0.0f, 0.0f, 0.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f));
+	cannon = new Entity();
+	cockpit = new Entity();
+	cannon->createPolygonalShape(createRectangle(0.2f, 1.6f), vec3(0.0f, 0.0f, 0.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f));
+	cannon->setYShiftValue((cannon->getHitbox().cornerTop.y - cannon->getHitbox().cornerBot.y) / 2 * cannon->getScaleValue());
+	cockpit->createPolygonalShape(createCircle(vec3(0.0f, 0.0f, 0.0f), 0.3f, 0.3f, 100), vec3(0.0f, 0.0f, 0.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f));
 }
 
 Entity* Player::getCannon()
 {
-	return &cannon;
+	return cannon;
 }
 
 Entity* Player::getCockpit()
 {
-	return &cockpit;
+	return cockpit;
+}
+
+vector<Projectile*> Player::getProjectiles()
+{
+	return projectiles;
+}
+
+void Player::shoot()
+{
+	float x = xShiftValue + 2 * (cannon->getXShiftValue() - xShiftValue);
+	float y = yShiftValue + 2 * (cannon->getYShiftValue() - yShiftValue);
+	Projectile* projectile = new Projectile(x, y, cannon->getRotationValue());
+	projectiles.push_back(projectile);
+}
+
+void Player::removeProjectile(int index)
+{
+	for (int i = index; i < projectiles.size() - 1; i++)
+	{
+		projectiles[i] = projectiles[i + 1];
+	}
+	projectiles.pop_back();
+}
+
+
+
+Projectile::Projectile(float x, float y, float _angle)
+{
+	angle = 90.0f + _angle;
+	m = tan(radians(angle));
+	q = y - m * x;
+	xShiftValue = x;
+	yShiftValue = y;
+	createPolygonalShape(createCircle(vec3(0.0f, 0.0f, 0.0f), 0.1f, 0.1f, 100), vec3(0.0f, 0.0f, 0.0f), vec4(0.4f, 0.4f, 0.4f, 1.0f), vec4(0.4f, 0.4f, 0.4f, 1.0f));
+	inScene = false;
+}
+
+void Projectile::updatePosition()
+{
+	xShiftValue += 5.0f * cos(radians(angle));
+	yShiftValue = xShiftValue * m + q;
+}
+
+bool Projectile::isInScene()
+{
+	return inScene;
+}
+
+void Projectile::changeStatus()
+{
+	inScene = inScene ? false : true;
 }

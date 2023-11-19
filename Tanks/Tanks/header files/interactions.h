@@ -1,7 +1,7 @@
 #pragma once
 #include "../header files/entities.h"
 
-extern Player player;
+extern Player* player;
 
 extern const int width;
 extern const int height;

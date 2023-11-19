@@ -14,6 +14,10 @@ typedef struct {
 	vec3 cornerTop;
 } Hitbox;
 
+class Entity;
+class Player;
+class Projectile;
+
 class Entity {
 
 	protected:
@@ -39,6 +43,7 @@ class Entity {
 		void createHermiteShape(vector<vec3> controlPoints, vec3 center, vec4 color1, vec4 color2);
 		void initVAO();
 		void updateVAO();
+		void disableAndDelete();
 		GLuint* getVAO();
 		GLuint* getVerticesVBO();
 		GLuint* getColorsVBO();
@@ -64,13 +69,32 @@ class Entity {
 class Player : public Entity {
 
 	private:
-		Entity cannon;
-		Entity cockpit;
+		Entity* cannon;
+		Entity* cockpit;
+		vector<Projectile*> projectiles;
 
 	public:
 		Player();
 		Entity* getCannon();
 		Entity* getCockpit();
+		vector<Projectile*> getProjectiles();
 		void shoot();
+		void removeProjectile(int index);
+
+};
+
+class Projectile : public Entity
+{
+	private:
+		float m;
+		float q;
+		float angle;
+		bool inScene;
+
+	public:
+		Projectile(float x, float y, float _angle);
+		void updatePosition();
+		bool isInScene();
+		void changeStatus();
 
 };

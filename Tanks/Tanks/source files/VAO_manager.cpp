@@ -65,3 +65,8 @@ void updateControlPointsVAO(Entity* entity)
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(1);
 }
+
+void disableVAO(Entity* entity)
+{
+	glDisable(*entity->getVAO());
+}
