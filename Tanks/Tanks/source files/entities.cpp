@@ -8,7 +8,8 @@ Entity::Entity()
 	alive = true;
 	xShiftValue = 0.0f;
 	yShiftValue = 0.0f;
-	scaleValue = DEFAULT_SIZE;
+	xScaleValue = DEFAULT_SIZE;
+	yScaleValue = DEFAULT_SIZE;
 	rotationValue = 0.0f;
 }
 
@@ -20,17 +21,17 @@ void Entity::createPolygonalShape(vector<vec3> polygonVertices, vec3 center, vec
 	float yMin = polygonVertices[0].y;
 	float xMax = polygonVertices[0].x;
 	float yMax = polygonVertices[0].y;
-	for (int i = 0; i < polygonVertices.size(); i++) {
-		vertices.push_back(vec3(polygonVertices[i].x, polygonVertices[i].y, 0.0f));
+	for (vec3 vertex : polygonVertices) {
+		vertices.push_back(vec3(vertex.x, vertex.y, 0.0f));
 		colors.push_back(color1);
-		if (polygonVertices[i].x < xMin)
-			xMin = polygonVertices[i].x;
-		else if (polygonVertices[i].x > xMax)
-			xMax = polygonVertices[i].x;
-		if (polygonVertices[i].y < yMin)
-			yMin = polygonVertices[i].y;
-		else if (polygonVertices[i].y > yMax)
-			yMax = polygonVertices[i].y;
+		if (vertex.x < xMin)
+			xMin = vertex.x;
+		else if (vertex.x > xMax)
+			xMax = vertex.x;
+		if (vertex.y < yMin)
+			yMin = vertex.y;
+		else if (vertex.y > yMax)
+			yMax = vertex.y;
 	}
 	hitbox.cornerBot = vec3(xMin, yMin, 0.0f);
 	hitbox.cornerTop = vec3(xMax, yMax, 0.0f);
@@ -111,9 +112,14 @@ float Entity::getYShiftValue()
 	return yShiftValue;
 }
 
-float Entity::getScaleValue()
+float Entity::getXScaleValue()
 {
-	return scaleValue;
+	return xScaleValue;
+}
+
+float Entity::getYScaleValue()
+{
+	return yScaleValue;
 }
 
 float Entity::getRotationValue()
@@ -131,9 +137,14 @@ void Entity::setYShiftValue(float value)
 	yShiftValue = value;
 }
 
-void Entity::setScaleValue(float value)
+void Entity::setXScaleValue(float value)
 {
-	scaleValue = value;
+	xScaleValue = value;
+}
+
+void Entity::setYScaleValue(float value)
+{
+	yScaleValue = value;
 }
 
 void Entity::setRotationValue(float value)
@@ -146,9 +157,21 @@ Hitbox Entity::getHitbox()
 	return hitbox;
 }
 
-void Entity::disableAndDelete()
+vec3 Entity::getMidPoint()
 {
-	disableVAO(this);
+	float x = (hitbox.cornerBot.x + hitbox.cornerTop.x) / 2;
+	float y = (hitbox.cornerBot.y + hitbox.cornerTop.y) / 2;
+	return vec3(x, y, 0.0f);
+}
+
+float Entity::getWidth()
+{
+	return hitbox.cornerTop.x - hitbox.cornerBot.x;
+}
+
+float Entity::getHeight()
+{
+	return hitbox.cornerTop.y - hitbox.cornerBot.y;
 }
 
 
@@ -162,7 +185,7 @@ Player::Player()
 	cannon = new Entity();
 	cockpit = new Entity();
 	cannon->createPolygonalShape(createRectangle(0.2f, 1.6f), vec3(0.0f, 0.0f, 0.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f));
-	cannon->setYShiftValue((cannon->getHitbox().cornerTop.y - cannon->getHitbox().cornerBot.y) / 2 * cannon->getScaleValue());
+	cannon->setYShiftValue((cannon->getHitbox().cornerTop.y - cannon->getHitbox().cornerBot.y) / 2 * cannon->getYScaleValue());
 	cockpit->createPolygonalShape(createCircle(vec3(0.0f, 0.0f, 0.0f), 0.3f, 0.3f, 100), vec3(0.0f, 0.0f, 0.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f));
 }
 
@@ -192,9 +215,7 @@ void Player::shoot()
 void Player::removeProjectile(int index)
 {
 	for (int i = index; i < projectiles.size() - 1; i++)
-	{
 		projectiles[i] = projectiles[i + 1];
-	}
 	projectiles.pop_back();
 }
 

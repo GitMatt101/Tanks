@@ -2,6 +2,7 @@
 #include "../header files/entities.h"
 
 extern Player* player;
+extern vector<Entity*> walls;
 
 extern const int width;
 extern const int height;

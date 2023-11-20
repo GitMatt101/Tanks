@@ -34,7 +34,8 @@ class Entity {
 		mat4 model;					// Matrice di modellazione: traslazione * rotazione * scala
 		float xShiftValue;			// Valore di traslazione per la x
 		float yShiftValue;			// Valore di traslazione per la y
-		float scaleValue;			// Valore di scalatura
+		float xScaleValue;			// Valore di scalatura per la x
+		float yScaleValue;			// Valore di scalatura per la y
 		float rotationValue;		// Valore di rotazione
 
 	public:
@@ -43,7 +44,6 @@ class Entity {
 		void createHermiteShape(vector<vec3> controlPoints, vec3 center, vec4 color1, vec4 color2);
 		void initVAO();
 		void updateVAO();
-		void disableAndDelete();
 		GLuint* getVAO();
 		GLuint* getVerticesVBO();
 		GLuint* getColorsVBO();
@@ -56,13 +56,18 @@ class Entity {
 		mat4* getModel();
 		float getXShiftValue();
 		float getYShiftValue();
-		float getScaleValue();
+		float getXScaleValue();
+		float getYScaleValue();
 		float getRotationValue();
 		void setXShiftValue(float value);
 		void setYShiftValue(float value);
-		void setScaleValue(float value);
+		void setXScaleValue(float value);
+		void setYScaleValue(float value);
 		void setRotationValue(float value);
 		Hitbox getHitbox();
+		vec3 getMidPoint();
+		float getWidth();
+		float getHeight();
 
 };
 
