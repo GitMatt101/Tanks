@@ -9,6 +9,9 @@
 using namespace glm;
 using namespace std;
 
+extern const int width;
+extern const int height;
+
 typedef struct {
 	vec3 cornerBot;
 	vec3 cornerTop;
@@ -68,6 +71,7 @@ class Entity {
 		vec3 getMidPoint();
 		float getWidth();
 		float getHeight();
+		Hitbox getHitboxWorldCoordinates();
 
 };
 
@@ -85,6 +89,7 @@ class Player : public Entity {
 		vector<Projectile*> getProjectiles();
 		void shoot();
 		void removeProjectile(int index);
+		void rotateHitbox();
 
 };
 

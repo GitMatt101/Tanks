@@ -10,3 +10,5 @@ extern const int height;
 void keyboard(unsigned char key, int x, int y);
 
 void mouseMovement(int x, int y);
+
+bool checkWallCollision(Entity* entity, float xShift, float yShift);

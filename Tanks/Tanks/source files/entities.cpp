@@ -1,5 +1,6 @@
 #include "../header files/entities.h"
 #include "../header files/VAO_manager.h"
+#include <math.h>
 
 #define DEFAULT_SIZE 50.0f
 
@@ -174,6 +175,15 @@ float Entity::getHeight()
 	return hitbox.cornerTop.y - hitbox.cornerBot.y;
 }
 
+Hitbox Entity::getHitboxWorldCoordinates()
+{
+	float xBottom = (float)width / 2 + hitbox.cornerBot.x * xScaleValue + xShiftValue;
+	float yBottom = (float)height / 2 + hitbox.cornerBot.y * yScaleValue + yShiftValue;
+	float xTop = (float)width / 2 + hitbox.cornerTop.x * xScaleValue + xShiftValue;
+	float yTop = (float)height / 2 + hitbox.cornerTop.y * yScaleValue + yShiftValue;
+	return { vec3(xBottom, yBottom, 0.0f), vec3(xTop, yTop, 0.0f) };
+}
+
 
 
 Player::Player() 
@@ -181,7 +191,7 @@ Player::Player()
 	vec4 color1 = vec4(0.0f, 0.2f, 0.0f, 1.0f);
 	vec4 color2 = vec4(0.6f, 0.2f, 0.2f, 1.0f);
 	vec3 center = vec3(0.0f, 0.0f, 0.0f);
-	createPolygonalShape(createRectangle(1.2f, 1.8f), center, color1, color2);
+	createPolygonalShape(createRectangle(1.2f, 2.0f), center, color1, color2);
 	cannon = new Entity();
 	cockpit = new Entity();
 	cannon->createPolygonalShape(createRectangle(0.2f, 1.6f), vec3(0.0f, 0.0f, 0.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f));
@@ -217,6 +227,23 @@ void Player::removeProjectile(int index)
 	for (int i = index; i < projectiles.size() - 1; i++)
 		projectiles[i] = projectiles[i + 1];
 	projectiles.pop_back();
+}
+
+void Player::rotateHitbox()
+{
+	vec3 t1 = hitbox.cornerTop;
+	t1.x = hitbox.cornerBot.x;
+	vec3 b1 = hitbox.cornerBot;
+	b1.x = hitbox.cornerTop.x;
+	float radius = sqrt(pow(hitbox.cornerTop.x, 2) + pow(hitbox.cornerTop.y, 2));
+	float m = t1.y / t1.x;
+	float theta = 180.0f + degrees(atan(m));
+	hitbox.cornerTop.x = radius * cos(radians(theta - 90.0f));
+	hitbox.cornerTop.y = radius * sin(radians(theta - 90.0f));
+	m = b1.y / b1.x;
+	theta = 360.0f + degrees(atan(m));
+	hitbox.cornerBot.x = radius * cos(radians(theta - 90.0f));
+	hitbox.cornerBot.y = radius * sin(radians(theta - 90.0f));
 }
 
 

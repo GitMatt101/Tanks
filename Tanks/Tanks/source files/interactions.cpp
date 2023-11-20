@@ -13,20 +13,14 @@ void moveTank(float xShift, float yShift)
 	player->getCockpit()->setYShiftValue(player->getCockpit()->getYShiftValue() + yShift);
 }
 
-bool checkWallCollision(float xShift, float yShift)
+bool checkWallCollision(Entity* entity, float xShift, float yShift)
 {
-	float xPlayerBottomWorld = (float)width / 2 + player->getHitbox().cornerBot.x * player->getXScaleValue() + player->getXShiftValue() + xShift;
-	float yPlayerBottomWorld = (float)height / 2 + player->getHitbox().cornerBot.y * player->getYScaleValue() + player->getYShiftValue() + yShift;
-	float xPlayerTopWorld = (float)width / 2 + player->getHitbox().cornerTop.x * player->getXScaleValue() + player->getXShiftValue() + xShift;
-	float yPlayerTopWorld = (float)height / 2 + player->getHitbox().cornerTop.y * player->getYScaleValue() + player->getYShiftValue() + yShift;
 	for (Entity* wall : walls)
 	{
-		float xWallBottomWorld = (float)width / 2 + wall->getHitbox().cornerBot.x * wall->getXScaleValue() + wall->getXShiftValue();
-		float yWallBottomWorld = (float)height / 2 + wall->getHitbox().cornerBot.y * wall->getYScaleValue() + wall->getYShiftValue();
-		float xWallTopWorld = (float)width / 2 + wall->getHitbox().cornerTop.x * wall->getXScaleValue() + wall->getXShiftValue();
-		float yWallTopWorld = (float)height / 2 + wall->getHitbox().cornerTop.y * wall->getYScaleValue() + wall->getYShiftValue();
-		if (xPlayerBottomWorld <= xWallTopWorld && xPlayerTopWorld >= xWallBottomWorld
-			&& yPlayerBottomWorld <= yWallTopWorld && yPlayerTopWorld >= yWallBottomWorld)
+		if (entity->getHitboxWorldCoordinates().cornerBot.x + xShift <= wall->getHitboxWorldCoordinates().cornerTop.x
+			&& entity->getHitboxWorldCoordinates().cornerTop.x + xShift >= wall->getHitboxWorldCoordinates().cornerBot.x
+			&& entity->getHitboxWorldCoordinates().cornerBot.y + yShift <= wall->getHitboxWorldCoordinates().cornerTop.y 
+			&& entity->getHitboxWorldCoordinates().cornerTop.y + yShift >= wall->getHitboxWorldCoordinates().cornerBot.y)
 			return true;
 	}
 	return false;
@@ -37,24 +31,40 @@ void keyboard(unsigned char key, int x, int y)
 	switch (key)
 	{
 		case 'w':
-			if (!checkWallCollision(0.0f, SHIFT_VALUE))
+			if (player->getRotationValue() == 90.0f)
+			{
+				player->rotateHitbox();
+				player->setRotationValue(0.0f);
+			}
+			if (!checkWallCollision(player, 0.0f, SHIFT_VALUE))
 				moveTank(0.0f, SHIFT_VALUE);
-			player->setRotationValue(0.0f);
 			break;
 		case 'a':
-			if (!checkWallCollision(-SHIFT_VALUE, 0.0f))
+			if (player->getRotationValue() == 0.0f)
+			{
+				player->rotateHitbox();
+				player->setRotationValue(90.0f);
+			}
+			if (!checkWallCollision(player, -SHIFT_VALUE, 0.0f))
 				moveTank(-SHIFT_VALUE, 0.0f);
-			player->setRotationValue(90.0f);
 			break;
 		case 's':
-			if (!checkWallCollision(0.0f, -SHIFT_VALUE))
+			if (player->getRotationValue() == 90.0f)
+			{
+				player->rotateHitbox();
+				player->setRotationValue(0.0f);
+			}
+			if (!checkWallCollision(player, 0.0f, -SHIFT_VALUE))
 				moveTank(0.0f, -SHIFT_VALUE);
-			player->setRotationValue(180.0f);
 			break;
 		case 'd':
-			if (!checkWallCollision(SHIFT_VALUE, 0.0f))
+			if (player->getRotationValue() == 0.0f)
+			{
+				player->rotateHitbox();
+				player->setRotationValue(90.0f);
+			}
+			if (!checkWallCollision(player, SHIFT_VALUE, 0.0f))
 				moveTank(SHIFT_VALUE, 0.0f);
-			player->setRotationValue(270.0f);
 			break;
 		case ' ':
 			player->shoot();
