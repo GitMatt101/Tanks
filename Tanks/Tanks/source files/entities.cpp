@@ -4,6 +4,7 @@
 #include "../header files/interactions.h"
 
 #define DEFAULT_SIZE 50.0f
+#define DEFAULT_PROJECTILE_SPEED 10.0f
 
 Entity::Entity()
 {
@@ -247,20 +248,27 @@ Projectile::Projectile(float x, float y, float angle)
 	m = tan(radians(90.0f + angle));
 	xShiftValue = x;
 	yShiftValue = y;
-	xShift = 5.0f * cos(radians(90.0f + angle));
+	xShift = DEFAULT_PROJECTILE_SPEED * cos(radians(90.0f + angle));
 	yShift = m * xShift;
 	createPolygonalShape(createCircle(vec3(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 100), vec3(0.0f, 0.0f, 0.0f), vec4(0.4f, 0.4f, 0.4f, 1.0f), vec4(0.4f, 0.4f, 0.4f, 1.0f));
 	xScaleValue = 5.0f;
 	yScaleValue = 5.0f;
 	inScene = false;
+	bounces = 0;
 }
 
 void Projectile::updatePosition()
 {
 	if (checkWallCollision(this, xShift, 0.0f))
+	{
 		xShift = -xShift;
+		bounces++;
+	}
 	else if (checkWallCollision(this, 0.0f, yShift))
+	{
 		yShift = -yShift;
+		bounces++;
+	}
 	xShiftValue += xShift;
 	yShiftValue += yShift;
 }
@@ -273,4 +281,9 @@ bool Projectile::isInScene()
 void Projectile::changeStatus()
 {
 	inScene = inScene ? false : true;
+}
+
+int Projectile::getNumberOfBounces()
+{
+	return bounces;
 }

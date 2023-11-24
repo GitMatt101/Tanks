@@ -109,8 +109,9 @@ void update(int value)
 		else
 		{
 			projectile->updatePosition();
-			if ((float)width / 2 + projectile->getXShiftValue() > (float)width || (float)width / 2 + projectile->getXShiftValue() < 0.0f
-				|| (float)height / 2 + projectile->getYShiftValue() > (float)height || (float)height / 2 + projectile->getYShiftValue() < 0.0f)
+			if (projectile->getNumberOfBounces() > 2 || 
+				((float)width / 2 + projectile->getXShiftValue() > (float)width || (float)width / 2 + projectile->getXShiftValue() < 0.0f
+				|| (float)height / 2 + projectile->getYShiftValue() > (float)height || (float)height / 2 + projectile->getYShiftValue() < 0.0f))
 			{
 				shiftLeft(i);
 				player->removeProjectile(i);

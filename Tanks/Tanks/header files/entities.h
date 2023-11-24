@@ -99,6 +99,7 @@ class Projectile : public Entity
 		float m;
 		float xShift;
 		float yShift;
+		int bounces;
 		bool inScene;
 
 	public:
@@ -106,5 +107,6 @@ class Projectile : public Entity
 		void updatePosition();
 		bool isInScene();
 		void changeStatus();
+		int getNumberOfBounces();
 
 };
