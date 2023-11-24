@@ -171,7 +171,7 @@ int main(int argc, char* argv[])
 	INIT_VAO();
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glutTimerFunc(50, update, 0);
+	glutTimerFunc(17, update, 0);
 	glutKeyboardFunc(keyboard);
 	glutPassiveMotionFunc(mouseMovement);
 	glutMainLoop();

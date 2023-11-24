@@ -2,9 +2,11 @@
 #include "../header files/VAO_manager.h"
 #include <math.h>
 #include "../header files/interactions.h"
+#include "../header files/hermite.h"
 
 #define DEFAULT_SIZE 50.0f
 #define DEFAULT_PROJECTILE_SPEED 10.0f
+#define P_VAL 100
 
 Entity::Entity()
 {
@@ -42,7 +44,57 @@ void Entity::createPolygonalShape(vector<vec3> polygonVertices, vec3 center, vec
 
 void Entity::createHermiteShape(vector<vec3> controlPoints, vec3 center, vec4 color1, vec4 color2)
 {
+	Shape derivative;
+	Shape polygonal;
+	polygonal.cpCoordinates = controlPoints;
+	float* t = new float[polygonal.cpCoordinates.size()];
+	for (int i = 0; i < polygonal.cpCoordinates.size(); i++)
+		t[i] = (float)i / (float)(polygonal.cpCoordinates.size() - 1);
 
+	float p_t = 0, p_b = 0, p_c = 0;
+	float passotg = 1.0f / (float)(P_VAL - 1);
+
+	float tgmapp, ampiezza;
+	int is = 0;
+
+	cpCoordinates = controlPoints;
+	vertices.push_back(center);	// Punto dal quale partono i triangoli per costruire la forma
+	colors.push_back(color2);
+
+	for (int i = 0; i < controlPoints.size(); i++)
+		derivative.cpCoordinates.push_back(vec3(0.0f, 0.0f, 0.0f));
+
+	for (float tg = 0.0f; tg <= 1.0f; tg += passotg)
+	{
+		if (tg > t[is + 1])
+			is++;
+		ampiezza = (t[is + 1] - t[is]);
+		tgmapp = (tg - t[is]) / ampiezza;
+
+		float x = cpCoordinates[is].x * PHI0(tgmapp) + DX(is, t, &derivative, &polygonal) * PHI1(tgmapp) * ampiezza + cpCoordinates[is + 1].x * PSI0(tgmapp) + DX(is + 1, t, &derivative, &polygonal) * PSI1(tgmapp) * ampiezza;
+		float y = cpCoordinates[is].y * PHI0(tgmapp) + DY(is, t, &derivative, &polygonal) * PHI1(tgmapp) * ampiezza + cpCoordinates[is + 1].y * PSI0(tgmapp) + DY(is + 1, t, &derivative, &polygonal) * PSI1(tgmapp) * ampiezza;
+
+		vertices.push_back(vec3(x, y, 0.0f));
+		colors.push_back(color1);
+	}
+
+	float xMin = vertices[0].x;
+	float yMin = vertices[0].y;
+	float xMax = vertices[0].x;
+	float yMax = vertices[0].y;
+	for (vec3 vertex : vertices)
+	{
+		if (vertex.x < xMin)
+			xMin = vertex.x;
+		else if (vertex.x > xMax)
+			xMax = vertex.x;
+		if (vertex.y < yMin)
+			yMin = vertex.y;
+		else if (vertex.y > yMax)
+			yMax = vertex.y;
+	}
+	hitbox.cornerBot = vec3(xMin, yMin, 0.0f);
+	hitbox.cornerTop = vec3(xMax, yMax, 0.0f);
 }
 
 void Entity::initVAO()
@@ -246,13 +298,15 @@ void Player::rotateHitbox()
 Projectile::Projectile(float x, float y, float angle)
 {
 	m = tan(radians(90.0f + angle));
+	rotationValue = angle;
 	xShiftValue = x;
 	yShiftValue = y;
 	xShift = DEFAULT_PROJECTILE_SPEED * cos(radians(90.0f + angle));
 	yShift = m * xShift;
-	createPolygonalShape(createCircle(vec3(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 100), vec3(0.0f, 0.0f, 0.0f), vec4(0.4f, 0.4f, 0.4f, 1.0f), vec4(0.4f, 0.4f, 0.4f, 1.0f));
-	xScaleValue = 5.0f;
-	yScaleValue = 5.0f;
+	float greyScale = 0.3f;
+	createHermiteShape(readPolygonVertices((char*)"projectile.txt"), vec3(0.0f, 0.0f, 0.0f), vec4(greyScale, greyScale, greyScale, 1.0f), vec4(greyScale, greyScale, greyScale, 1.0f));
+	xScaleValue = (float)DEFAULT_SIZE * 2 / 3;
+	yScaleValue = (float)DEFAULT_SIZE * 2 / 3;
 	inScene = false;
 	bounces = 0;
 }
@@ -261,11 +315,13 @@ void Projectile::updatePosition()
 {
 	if (checkWallCollision(this, xShift, 0.0f))
 	{
+		rotationValue = -rotationValue;
 		xShift = -xShift;
 		bounces++;
 	}
 	else if (checkWallCollision(this, 0.0f, yShift))
 	{
+		rotationValue = 540.0f - rotationValue;
 		yShift = -yShift;
 		bounces++;
 	}

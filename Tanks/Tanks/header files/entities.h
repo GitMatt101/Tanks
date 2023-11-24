@@ -23,7 +23,7 @@ class Projectile;
 
 class Entity {
 
-	protected:
+	public:
 		bool alive;
 		Hitbox hitbox;
 		GLuint VAO;
