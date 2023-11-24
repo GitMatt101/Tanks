@@ -34,39 +34,3 @@ void updateShapeVAO(Entity* entity)
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(1);
 }
-
-void initControlPointsVAO(Entity* entity)
-{
-	glGenVertexArrays(1, entity->getVAO());
-	glBindVertexArray(*entity->getVAO());
-	glGenBuffers(1, entity->getVerticesVBO());
-	glBindBuffer(GL_ARRAY_BUFFER, *entity->getVerticesVBO());
-	glBufferData(GL_ARRAY_BUFFER, entity->getNumberOfControlPoints() * sizeof(vec3), NULL, GL_DYNAMIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glEnableVertexAttribArray(0);
-	glGenBuffers(1, entity->getColorsVBO());
-	glBindBuffer(GL_ARRAY_BUFFER, *entity->getColorsVBO());
-	glBufferData(GL_ARRAY_BUFFER, entity->getNumberOfControlPoints() * sizeof(vec4), NULL, GL_DYNAMIC_DRAW);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glEnableVertexAttribArray(1);
-}
-
-void updateControlPointsVAO(Entity* entity)
-{
-	vector<vec3> cpCoordinates = *entity->getControlPointsCoordinates();
-	vector<vec4> cpColors = *entity->getControlPointsColors();
-	glBindVertexArray(*entity->getVAO());
-	glBindBuffer(GL_ARRAY_BUFFER, *entity->getVerticesVBO());
-	glBufferSubData(GL_ARRAY_BUFFER, 0, cpCoordinates.size() * sizeof(vec3), cpCoordinates.data());
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, *entity->getColorsVBO());
-	glBufferSubData(GL_ARRAY_BUFFER, 0, cpColors.size() * sizeof(vec4), cpColors.data());
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glEnableVertexAttribArray(1);
-}
-
-void disableVAO(Entity* entity)
-{
-	glDisable(*entity->getVAO());
-}

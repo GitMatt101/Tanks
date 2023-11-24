@@ -17,6 +17,7 @@ GLuint MatProj, MatModel;
 vector<Entity*> playerComponents;
 vector<Entity*> projectiles;
 vector<Entity*> walls;
+vector<Entity*> enemies;
 vector<vector<Entity*>*> scene;
 
 Player* player = new Player();
@@ -78,9 +79,34 @@ void INIT_VAO(void)
 	for (Entity* wall : walls)
 		wall->initVAO();
 
+	Entity* enemy1 = new Entity();
+	enemy1->createHermiteShape(readPolygonVertices((char*)"enemy.txt"), vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	enemy1->setXShiftValue((rightWall->getXShiftValue() + midRightWall->getXShiftValue()) / 2);
+	enemy1->setYShiftValue((float)height / 5);
+	enemies.push_back(enemy1);
+	Entity* enemy2 = new Entity();
+	enemy2->createHermiteShape(readPolygonVertices((char*)"enemy.txt"), vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	enemy2->setXShiftValue(-enemy1->getXShiftValue());
+	enemy2->setYShiftValue((float)height / 5);
+	enemies.push_back(enemy2);
+	Entity* enemy3 = new Entity();
+	enemy3->createHermiteShape(readPolygonVertices((char*)"enemy.txt"), vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	enemy3->setXShiftValue((rightWall->getXShiftValue() + midRightWall->getXShiftValue()) / 2);
+	enemy3->setYShiftValue(-(float)height / 5);
+	enemies.push_back(enemy3);
+	Entity* enemy4 = new Entity();
+	enemy4->createHermiteShape(readPolygonVertices((char*)"enemy.txt"), vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	enemy4->setXShiftValue(-enemy1->getXShiftValue());
+	enemy4->setYShiftValue(-(float)height / 5);
+	enemies.push_back(enemy4);
+
+	for (Entity* enemy : enemies)
+		enemy->initVAO();
+
 	scene.push_back(&playerComponents);
 	scene.push_back(&projectiles);
 	scene.push_back(&walls);
+	scene.push_back(&enemies);
 	Projection = ortho(0.0f, float(width), 0.0f, float(height));
 	MatProj = glGetUniformLocation(programId, "Projection");
 	MatModel = glGetUniformLocation(programId, "Model");
@@ -128,6 +154,8 @@ void update(int value)
 		projectile->updateVAO();
 	for (Entity* wall : walls)
 		wall->updateVAO();
+	for (Entity* enemy : enemies)
+		enemy->updateVAO();
 	glutTimerFunc(17, update, 0);
 	glutPostRedisplay();
 }

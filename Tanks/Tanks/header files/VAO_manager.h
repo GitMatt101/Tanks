@@ -5,9 +5,3 @@
 void initShapeVAO(Entity* entity);
 
 void updateShapeVAO(Entity* entity);
-
-void initControlPointsVAO(Entity* entity);
-
-void updateControlPointsVAO(Entity* entity);
-
-void disableVAO(Entity* entity);

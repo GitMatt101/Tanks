@@ -77,7 +77,8 @@ void Entity::createHermiteShape(vector<vec3> controlPoints, vec3 center, vec4 co
 		vertices.push_back(vec3(x, y, 0.0f));
 		colors.push_back(color1);
 	}
-
+	vertices.push_back(controlPoints[controlPoints.size() - 1]);
+	colors.push_back(color1);
 	float xMin = vertices[0].x;
 	float yMin = vertices[0].y;
 	float xMax = vertices[0].x;
