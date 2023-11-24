@@ -82,6 +82,8 @@ void mouseMovement(int x, int y)
 		angle = 180.0f + angle;
 	else if ((float)height - y < (float)height / 2 + player->getYShiftValue() && x < (float)width / 2 + player->getXShiftValue())
 		angle += 180.0f;
+	else if ((float)height - y < (float)height / 2 + player->getYShiftValue() && x >(float)width / 2 + player->getXShiftValue())
+		angle = 360.0f + angle;
 	float xShift = cos(radians(angle)) * player->getCannon()->getXScaleValue();
 	float yShift = sin(radians(angle)) * player->getCannon()->getYScaleValue();
 	player->getCannon()->setXShiftValue(player->getXShiftValue() + xShift);

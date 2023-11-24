@@ -97,12 +97,12 @@ class Projectile : public Entity
 {
 	private:
 		float m;
-		float q;
-		float angle;
+		float xShift;
+		float yShift;
 		bool inScene;
 
 	public:
-		Projectile(float x, float y, float _angle);
+		Projectile(float x, float y, float angle);
 		void updatePosition();
 		bool isInScene();
 		void changeStatus();

@@ -1,6 +1,7 @@
 #include "../header files/entities.h"
 #include "../header files/VAO_manager.h"
 #include <math.h>
+#include "../header files/interactions.h"
 
 #define DEFAULT_SIZE 50.0f
 
@@ -231,38 +232,37 @@ void Player::removeProjectile(int index)
 
 void Player::rotateHitbox()
 {
-	vec3 t1 = hitbox.cornerTop;
-	t1.x = hitbox.cornerBot.x;
-	vec3 b1 = hitbox.cornerBot;
-	b1.x = hitbox.cornerTop.x;
-	float radius = sqrt(pow(hitbox.cornerTop.x, 2) + pow(hitbox.cornerTop.y, 2));
-	float m = t1.y / t1.x;
-	float theta = 180.0f + degrees(atan(m));
-	hitbox.cornerTop.x = radius * cos(radians(theta - 90.0f));
-	hitbox.cornerTop.y = radius * sin(radians(theta - 90.0f));
-	m = b1.y / b1.x;
-	theta = 360.0f + degrees(atan(m));
-	hitbox.cornerBot.x = radius * cos(radians(theta - 90.0f));
-	hitbox.cornerBot.y = radius * sin(radians(theta - 90.0f));
+	vec4 t1 = vec4(hitbox.cornerBot.x, hitbox.cornerTop.y, 0.0f, 1.0f);
+	vec4 b1 = vec4(hitbox.cornerTop.x, hitbox.cornerBot.y, 0.0f, 1.0f);
+	mat4 model = mat4(1.0);
+	model = rotate(model, radians(-90.0f), vec3(0.0f, 0.0f, 1.0f));
+	hitbox.cornerTop = model * t1;
+	hitbox.cornerBot = model * b1;
 }
 
 
 
-Projectile::Projectile(float x, float y, float _angle)
+Projectile::Projectile(float x, float y, float angle)
 {
-	angle = 90.0f + _angle;
-	m = tan(radians(angle));
-	q = y - m * x;
+	m = tan(radians(90.0f + angle));
 	xShiftValue = x;
 	yShiftValue = y;
-	createPolygonalShape(createCircle(vec3(0.0f, 0.0f, 0.0f), 0.1f, 0.1f, 100), vec3(0.0f, 0.0f, 0.0f), vec4(0.4f, 0.4f, 0.4f, 1.0f), vec4(0.4f, 0.4f, 0.4f, 1.0f));
+	xShift = 5.0f * cos(radians(90.0f + angle));
+	yShift = m * xShift;
+	createPolygonalShape(createCircle(vec3(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 100), vec3(0.0f, 0.0f, 0.0f), vec4(0.4f, 0.4f, 0.4f, 1.0f), vec4(0.4f, 0.4f, 0.4f, 1.0f));
+	xScaleValue = 5.0f;
+	yScaleValue = 5.0f;
 	inScene = false;
 }
 
 void Projectile::updatePosition()
 {
-	xShiftValue += 5.0f * cos(radians(angle));
-	yShiftValue = xShiftValue * m + q;
+	if (checkWallCollision(this, xShift, 0.0f))
+		xShift = -xShift;
+	else if (checkWallCollision(this, 0.0f, yShift))
+		yShift = -yShift;
+	xShiftValue += xShift;
+	yShiftValue += yShift;
 }
 
 bool Projectile::isInScene()

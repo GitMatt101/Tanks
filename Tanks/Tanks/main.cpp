@@ -97,7 +97,6 @@ void shiftLeft(int index)
 
 void update(int value)
 {
-	vector<int> indices;
 	int i = 0;
 	for (Projectile* projectile : player->getProjectiles())
 	{
@@ -112,16 +111,14 @@ void update(int value)
 			projectile->updatePosition();
 			if ((float)width / 2 + projectile->getXShiftValue() > (float)width || (float)width / 2 + projectile->getXShiftValue() < 0.0f
 				|| (float)height / 2 + projectile->getYShiftValue() > (float)height || (float)height / 2 + projectile->getYShiftValue() < 0.0f)
-				indices.push_back(i);
+			{
+				shiftLeft(i);
+				player->removeProjectile(i);
+				delete(projectile);
+				i--;
+			}
 		}
 		i++;
-	}
-	for (int i : indices)
-	{
-		Entity* p = projectiles[i];
-		shiftLeft(i);
-		player->removeProjectile(i);
-		delete(p);
 	}
 
 	for (Entity* component : playerComponents)
