@@ -4,7 +4,7 @@
 #include "../header files/interactions.h"
 #include "../header files/hermite.h"
 
-#define DEFAULT_SIZE 50.0f
+#define DEFAULT_SIZE 25.0f
 #define DEFAULT_PROJECTILE_SPEED 10.0f
 #define P_VAL 100
 

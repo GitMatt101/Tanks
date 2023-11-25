@@ -76,14 +76,16 @@ void keyboard(unsigned char key, int x, int y)
 
 void mouseMovement(int x, int y)
 {
-	float m = ((float)(height - y) - ((float)height / 2 + player->getYShiftValue())) / ((float)x - ((float)width / 2 + player->getXShiftValue()));
+	float m = ((float)(height - y) -  player->getYShiftValue()) / ((float)x - player->getXShiftValue());
 	float angle = degrees(atan(m));
-	if ((float)height - y > (float)height / 2 + player->getYShiftValue() && x < (float)width / 2 + player->getXShiftValue())
+	if ((float)height - y > player->getYShiftValue() && x < player->getXShiftValue())
 		angle = 180.0f + angle;
-	else if ((float)height - y < (float)height / 2 + player->getYShiftValue() && x < (float)width / 2 + player->getXShiftValue())
+	else if ((float)height - y < player->getYShiftValue() && x < player->getXShiftValue())
 		angle += 180.0f;
-	else if ((float)height - y < (float)height / 2 + player->getYShiftValue() && x >(float)width / 2 + player->getXShiftValue())
+	else if ((float)height - y < player->getYShiftValue() && x > player->getXShiftValue())
 		angle = 360.0f + angle;
+	else if (angle == 0.0f && (float)x < player->getXShiftValue())
+		angle = 180.0f;
 	float xShift = cos(radians(angle)) * player->getCannon()->getXScaleValue();
 	float yShift = sin(radians(angle)) * player->getCannon()->getYScaleValue();
 	player->getCannon()->setXShiftValue(player->getXShiftValue() + xShift);

@@ -39,40 +39,50 @@ void INIT_VAO(void)
 	playerComponents.push_back(player);
 	playerComponents.push_back(player->getCannon());
 	playerComponents.push_back(player->getCockpit());
+	for (Entity* component : playerComponents)
+	{
+		component->setXShiftValue((float)width / 2);
+		component->setYShiftValue((float)height / 2);
+	}
 	
 	float dim1 = 1.0f;
 	float dim2 = 0.4f;
-
 	Entity* bottomWall = new Entity();
 	bottomWall->createPolygonalShape(createRectangle(dim1, dim2), vec3(0.0f, 0.0f, 0.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f));
-	bottomWall->setYShiftValue(-(float)height / 2 + bottomWall->getHeight() / 2 * bottomWall->getYScaleValue());
+	bottomWall->setXShiftValue((float)width / 2);
+	bottomWall->setYShiftValue(bottomWall->getHeight() / 2 * bottomWall->getYScaleValue());
 	bottomWall->setXScaleValue((float)width);
 	walls.push_back(bottomWall);
 	Entity* topWall = new Entity();
 	topWall->createPolygonalShape(createRectangle(dim1, dim2), vec3(0.0f, 0.0f, 0.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f));
-	topWall->setYShiftValue((float)height / 2 - topWall->getHeight() / 2 * topWall->getYScaleValue());
+	topWall->setYShiftValue((float)height - topWall->getHeight() / 2 * topWall->getYScaleValue());
+	topWall->setXShiftValue((float)width / 2);
 	topWall->setXScaleValue((float)width);
 	walls.push_back(topWall);
 
 	Entity* leftWall = new Entity();
 	leftWall->createPolygonalShape(createRectangle(dim2, dim1), vec3(0.0f, 0.0f, 0.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f));
-	leftWall->setXShiftValue(-(float)width / 2 + leftWall->getWidth() / 2 * leftWall->getXScaleValue());
+	leftWall->setXShiftValue(leftWall->getWidth() / 2 * leftWall->getXScaleValue());
+	leftWall->setYShiftValue((float)height / 2);
 	leftWall->setYScaleValue((float)height);
 	walls.push_back(leftWall);
 	Entity* rightWall = new Entity();
 	rightWall->createPolygonalShape(createRectangle(dim2, dim1), vec3(0.0f, 0.0f, 0.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f));
-	rightWall->setXShiftValue((float)width / 2 - rightWall->getWidth() / 2 * rightWall->getXScaleValue());
+	rightWall->setXShiftValue((float)width - rightWall->getWidth() / 2 * rightWall->getXScaleValue());
+	rightWall->setYShiftValue((float)height / 2);
 	rightWall->setYScaleValue((float)height);
 	walls.push_back(rightWall);
 
 	Entity* midLeftWall = new Entity();
 	midLeftWall->createPolygonalShape(createRectangle(dim2, dim1), vec3(0.0f, 0.0f, 0.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f));
-	midLeftWall->setXShiftValue(-(float)width / 4 + midLeftWall->getWidth() / 2 * midLeftWall->getXScaleValue());
+	midLeftWall->setXShiftValue((float)width / 6 + midLeftWall->getWidth() / 2 * midLeftWall->getXScaleValue());
+	midLeftWall->setYShiftValue((float)height / 2);
 	midLeftWall->setYScaleValue((float)height / 2);
 	walls.push_back(midLeftWall);
 	Entity* midRightWall = new Entity();
 	midRightWall->createPolygonalShape(createRectangle(dim2, dim1), vec3(0.0f, 0.0f, 0.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f));
-	midRightWall->setXShiftValue((float)width / 4 - midRightWall->getWidth() / 2 * midRightWall->getXScaleValue());
+	midRightWall->setXShiftValue((float)width - midLeftWall->getXShiftValue());
+	midRightWall->setYShiftValue((float)height / 2);
 	midRightWall->setYScaleValue((float)height / 2);
 	walls.push_back(midRightWall);
 
@@ -81,23 +91,23 @@ void INIT_VAO(void)
 
 	Entity* enemy1 = new Entity();
 	enemy1->createHermiteShape(readPolygonVertices((char*)"enemy.txt"), vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
-	enemy1->setXShiftValue((rightWall->getXShiftValue() + midRightWall->getXShiftValue()) / 2);
-	enemy1->setYShiftValue((float)height / 5);
+	enemy1->setXShiftValue((leftWall->getXShiftValue() + midLeftWall->getXShiftValue()) / 2);
+	enemy1->setYShiftValue((float)height / 3);
 	enemies.push_back(enemy1);
 	Entity* enemy2 = new Entity();
 	enemy2->createHermiteShape(readPolygonVertices((char*)"enemy.txt"), vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
-	enemy2->setXShiftValue(-enemy1->getXShiftValue());
-	enemy2->setYShiftValue((float)height / 5);
+	enemy2->setXShiftValue((float)width - enemy1->getXShiftValue());
+	enemy2->setYShiftValue(enemy1->getYShiftValue());
 	enemies.push_back(enemy2);
 	Entity* enemy3 = new Entity();
 	enemy3->createHermiteShape(readPolygonVertices((char*)"enemy.txt"), vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
-	enemy3->setXShiftValue((rightWall->getXShiftValue() + midRightWall->getXShiftValue()) / 2);
-	enemy3->setYShiftValue(-(float)height / 5);
+	enemy3->setXShiftValue(enemy1->getXShiftValue());
+	enemy3->setYShiftValue((float)height - enemy1->getYShiftValue());
 	enemies.push_back(enemy3);
 	Entity* enemy4 = new Entity();
 	enemy4->createHermiteShape(readPolygonVertices((char*)"enemy.txt"), vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
-	enemy4->setXShiftValue(-enemy1->getXShiftValue());
-	enemy4->setYShiftValue(-(float)height / 5);
+	enemy4->setXShiftValue(enemy2->getXShiftValue());
+	enemy4->setYShiftValue((float)height - enemy2->getYShiftValue());
 	enemies.push_back(enemy4);
 
 	for (Entity* enemy : enemies)
@@ -136,8 +146,8 @@ void update(int value)
 		{
 			projectile->updatePosition();
 			if (projectile->getNumberOfBounces() > 2 || 
-				((float)width / 2 + projectile->getXShiftValue() > (float)width || (float)width / 2 + projectile->getXShiftValue() < 0.0f
-				|| (float)height / 2 + projectile->getYShiftValue() > (float)height || (float)height / 2 + projectile->getYShiftValue() < 0.0f))
+				(projectile->getXShiftValue() > (float)width || projectile->getXShiftValue() < 0.0f
+				|| projectile->getYShiftValue() > (float)height || projectile->getYShiftValue() < 0.0f))
 			{
 				shiftLeft(i);
 				player->removeProjectile(i);
@@ -148,14 +158,9 @@ void update(int value)
 		i++;
 	}
 
-	for (Entity* component : playerComponents)
-		component->updateVAO();
-	for (Entity* projectile : projectiles)
-		projectile->updateVAO();
-	for (Entity* wall : walls)
-		wall->updateVAO();
-	for (Entity* enemy : enemies)
-		enemy->updateVAO();
+	for (vector<Entity*>* container : scene)
+		for (Entity* entity : *container)
+			entity->updateVAO();
 	glutTimerFunc(17, update, 0);
 	glutPostRedisplay();
 }
@@ -170,7 +175,7 @@ void drawScene(void)
 		for (Entity* entity : *container)
 		{
 			*entity->getModel() = mat4(1.0);
-			*entity->getModel() = translate(*entity->getModel(), vec3((float)width / 2 + entity->getXShiftValue(), (float)height / 2 + entity->getYShiftValue(), 0.0f));
+			*entity->getModel() = translate(*entity->getModel(), vec3(entity->getXShiftValue(), entity->getYShiftValue(), 0.0f));
 			*entity->getModel() = scale(*entity->getModel(), vec3(entity->getXScaleValue(), entity->getYScaleValue(), 1.0f));
 			*entity->getModel() = rotate(*entity->getModel(), radians(entity->getRotationValue()), vec3(0.0f, 0.0f, 1.0f));
 			glUniformMatrix4fv(MatProj, 1, GL_FALSE, value_ptr(Projection));
