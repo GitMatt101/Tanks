@@ -1,4 +1,4 @@
-#include "../header files/interactions.h"
+#include "../header_files/interactions.h"
 #include <math.h>
 
 #define SHIFT_VALUE 10.0f

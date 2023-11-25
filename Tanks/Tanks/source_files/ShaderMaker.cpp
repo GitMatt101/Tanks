@@ -1,4 +1,4 @@
-#include "../header files/ShaderMaker.h"
+#include "../header_files/ShaderMaker.h"
 #include <iostream>
 #include <fstream>
 

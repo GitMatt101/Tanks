@@ -1,5 +1,5 @@
-#include "../header files/shape_reader.h"
-#include "../header files/lib.h"
+#include "../header_files/shape_reader.h"
+#include "../header_files/lib.h"
 
 #define MAX_DATA 1000	// Numero massimo di vertici da poter memorizzare
 

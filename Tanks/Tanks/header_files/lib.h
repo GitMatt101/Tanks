@@ -13,6 +13,7 @@
 #include "hermite.h"
 #include "entities.h"
 #include "interactions.h"
+#include "scene_builder.h"
  
 using namespace glm;
 using namespace std;

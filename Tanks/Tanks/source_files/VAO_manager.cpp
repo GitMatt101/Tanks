@@ -1,6 +1,6 @@
-#include "../header files/lib.h"
-#include "../header files/VAO_manager.h"
-#include "../header files/entities.h"
+#include "../header_files/lib.h"
+#include "../header_files/VAO_manager.h"
+#include "../header_files/entities.h"
 #include <iostream>
 using namespace std;
 

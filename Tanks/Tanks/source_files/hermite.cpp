@@ -1,5 +1,5 @@
-#include "../header files/hermite.h"
-#include "../header files/lib.h"
+#include "../header_files/hermite.h"
+#include "../header_files/lib.h"
 
 float dx(int i, float* t, float tens, float bias, float cont, Shape* shape)
 {
