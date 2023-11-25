@@ -51,6 +51,29 @@ vector<Entity*> createWalls(float dim1, float dim2)
 	midRightWall->setYShiftValue((float)height / 2);
 	midRightWall->setYScaleValue((float)height / 2);
 
+	Entity* midTopWall = new Entity();
+	midTopWall->createPolygonalShape(createRectangle(dim1, dim2), vec3(0.0f, 0.0f, 0.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f));
+	midTopWall->setXShiftValue((float)width / 2);
+	midTopWall->setYShiftValue((float)height * 2 / 3);
+	midTopWall->setXScaleValue((float)width / 4);
+	Entity* midBottomWall = new Entity();
+	midBottomWall->createPolygonalShape(createRectangle(dim1, dim2), vec3(0.0f, 0.0f, 0.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f));
+	midBottomWall->setXShiftValue(midTopWall->getXShiftValue());
+	midBottomWall->setYShiftValue((float)height - midTopWall->getYShiftValue());
+	midBottomWall->setXScaleValue(midTopWall->getXScaleValue());
+
+	Entity* topVerticalWall = new Entity();
+	topVerticalWall->createPolygonalShape(createRectangle(dim2, dim1), vec3(0.0f, 0.0f, 0.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f));
+	topVerticalWall->setYShiftValue((float)height * 5 / 6);
+	topVerticalWall->setYScaleValue((float)height / 10);
+	topVerticalWall->setXShiftValue((float)width / 2);
+
+	Entity* bottomVerticalWall = new Entity();
+	bottomVerticalWall->createPolygonalShape(createRectangle(dim2, dim1), vec3(0.0f, 0.0f, 0.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f), vec4(0.6f, 0.6f, 0.6f, 1.0f));
+	bottomVerticalWall->setYShiftValue((float)height - topVerticalWall->getYShiftValue());
+	bottomVerticalWall->setYScaleValue(topVerticalWall->getYScaleValue());
+	bottomVerticalWall->setXShiftValue(topVerticalWall->getXShiftValue());
+
 	vector<Entity*> walls;
 	walls.push_back(bottomWall);
 	walls.push_back(topWall);
@@ -58,6 +81,10 @@ vector<Entity*> createWalls(float dim1, float dim2)
 	walls.push_back(rightWall);
 	walls.push_back(midLeftWall);
 	walls.push_back(midRightWall);
+	walls.push_back(midTopWall);
+	walls.push_back(midBottomWall);
+	walls.push_back(topVerticalWall);
+	walls.push_back(bottomVerticalWall);
 	return walls;
 }
 

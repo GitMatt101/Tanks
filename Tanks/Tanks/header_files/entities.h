@@ -31,8 +31,6 @@ class Entity {
 		GLuint VBO_C;
 		vector<vec3> vertices;
 		vector<vec4> colors;
-		vector<vec3> cpCoordinates;	// Coordinate dei punti di controllo
-		vector<vec4> cpColors;		// Colori dei punti di controllo
 		int nCP;					// Numero massimo di punti di controllo (punti di interpolazione)
 		mat4 model;					// Matrice di modellazione: traslazione * rotazione * scala
 		float xShiftValue;			// Valore di traslazione per la x
@@ -52,8 +50,6 @@ class Entity {
 		GLuint* getColorsVBO();
 		vector<vec3>* getVertices();
 		vector<vec4>* getVerticesColors();
-		vector<vec3>* getControlPointsCoordinates();
-		vector<vec4>* getControlPointsColors();
 		int getNumberOfVertices();
 		int getNumberOfControlPoints();
 		mat4* getModel();

@@ -57,8 +57,7 @@ void Entity::createHermiteShape(vector<vec3> controlPoints, vec3 center, vec4 co
 	float tgmapp, ampiezza;
 	int is = 0;
 
-	cpCoordinates = controlPoints;
-	vertices.push_back(center);	// Punto dal quale partono i triangoli per costruire la forma
+	vertices.push_back(center);
 	colors.push_back(color2);
 
 	for (int i = 0; i < controlPoints.size(); i++)
@@ -71,8 +70,8 @@ void Entity::createHermiteShape(vector<vec3> controlPoints, vec3 center, vec4 co
 		ampiezza = (t[is + 1] - t[is]);
 		tgmapp = (tg - t[is]) / ampiezza;
 
-		float x = cpCoordinates[is].x * PHI0(tgmapp) + DX(is, t, &derivative, &polygonal) * PHI1(tgmapp) * ampiezza + cpCoordinates[is + 1].x * PSI0(tgmapp) + DX(is + 1, t, &derivative, &polygonal) * PSI1(tgmapp) * ampiezza;
-		float y = cpCoordinates[is].y * PHI0(tgmapp) + DY(is, t, &derivative, &polygonal) * PHI1(tgmapp) * ampiezza + cpCoordinates[is + 1].y * PSI0(tgmapp) + DY(is + 1, t, &derivative, &polygonal) * PSI1(tgmapp) * ampiezza;
+		float x = controlPoints[is].x * PHI0(tgmapp) + DX(is, t, &derivative, &polygonal) * PHI1(tgmapp) * ampiezza + controlPoints[is + 1].x * PSI0(tgmapp) + DX(is + 1, t, &derivative, &polygonal) * PSI1(tgmapp) * ampiezza;
+		float y = controlPoints[is].y * PHI0(tgmapp) + DY(is, t, &derivative, &polygonal) * PHI1(tgmapp) * ampiezza + controlPoints[is + 1].y * PSI0(tgmapp) + DY(is + 1, t, &derivative, &polygonal) * PSI1(tgmapp) * ampiezza;
 
 		vertices.push_back(vec3(x, y, 0.0f));
 		colors.push_back(color1);
@@ -131,16 +130,6 @@ vector<vec3>* Entity::getVertices()
 vector<vec4>* Entity::getVerticesColors()
 {
 	return &colors;
-}
-
-vector<vec3>* Entity::getControlPointsCoordinates()
-{
-	return &cpCoordinates;
-}
-
-vector<vec4>* Entity::getControlPointsColors()
-{
-	return &cpColors;
 }
 
 int Entity::getNumberOfVertices()
