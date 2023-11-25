@@ -51,7 +51,6 @@ class Entity {
 		vector<vec3>* getVertices();
 		vector<vec4>* getVerticesColors();
 		int getNumberOfVertices();
-		int getNumberOfControlPoints();
 		mat4* getModel();
 		float getXShiftValue();
 		float getYShiftValue();

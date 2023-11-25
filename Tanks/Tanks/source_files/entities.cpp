@@ -137,11 +137,6 @@ int Entity::getNumberOfVertices()
 	return vertices.size();
 }
 
-int Entity::getNumberOfControlPoints()
-{
-	return nCP;
-}
-
 mat4* Entity::getModel()
 {
 	return &model;
