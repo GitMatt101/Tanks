@@ -1,8 +1,8 @@
 #include "../header_files/entities.h"
-#include <math.h>
 #include "../header_files/VAO_manager.h"
 #include "../header_files/interactions.h"
 #include "../header_files/hermite.h"
+#include <math.h>
 
 #define DEFAULT_SIZE 25.0f
 #define DEFAULT_PROJECTILE_SPEED 10.0f
@@ -10,7 +10,6 @@
 
 Entity::Entity()
 {
-	alive = true;
 	xShiftValue = 0.0f;
 	yShiftValue = 0.0f;
 	xScaleValue = DEFAULT_SIZE;

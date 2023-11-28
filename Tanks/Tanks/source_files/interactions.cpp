@@ -92,3 +92,24 @@ void mouseMovement(int x, int y)
 	player->getCannon()->setYShiftValue(player->getYShiftValue() + yShift);
 	player->getCannon()->setRotationValue(-90.0f + angle);
 }
+
+bool checkEnemyCollision(Entity* entity)
+{
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		if (entity->getHitboxWorldCoordinates().cornerBot.x <= enemies[i]->getHitboxWorldCoordinates().cornerTop.x
+			&& entity->getHitboxWorldCoordinates().cornerTop.x >= enemies[i]->getHitboxWorldCoordinates().cornerBot.x
+			&& entity->getHitboxWorldCoordinates().cornerBot.y <= enemies[i]->getHitboxWorldCoordinates().cornerTop.y
+			&& entity->getHitboxWorldCoordinates().cornerTop.y >= enemies[i]->getHitboxWorldCoordinates().cornerBot.y)
+		{
+			Entity* enemy = enemies[i];
+			for (int j = i; j < enemies.size() - 1; j++)
+				enemies[j] = enemies[j + 1];
+			enemies.pop_back();
+			delete(enemy);
+			i--;
+			return true;
+		}
+	}
+	return false;
+}

@@ -24,7 +24,6 @@ class Projectile;
 class Entity {
 
 	public:
-		bool alive;
 		Hitbox hitbox;
 		GLuint VAO;
 		GLuint VBO_V;

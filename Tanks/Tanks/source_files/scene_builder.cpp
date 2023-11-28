@@ -90,23 +90,23 @@ vector<Entity*> createWalls(float dim1, float dim2)
 
 vector<Entity*> createEnemies(char* controlPointsFile)
 {
-	Entity* enemy1 = new Entity();
+	Entity* enemy1 = new Entity();		// In basso a sinistra
 	vector<vec3> controlPoints = readPolygonVertices(controlPointsFile);
 	enemy1->createHermiteShape(controlPoints, vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	enemy1->setXShiftValue((float)width / 12);
 	enemy1->setYShiftValue((float)height / 3);
 
-	Entity* enemy2 = new Entity();
+	Entity* enemy2 = new Entity();		// In basso a destra
 	enemy2->createHermiteShape(controlPoints, vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	enemy2->setXShiftValue((float)width - enemy1->getXShiftValue());
 	enemy2->setYShiftValue(enemy1->getYShiftValue());
 
-	Entity* enemy3 = new Entity();
+	Entity* enemy3 = new Entity();		// In alto a sinistra
 	enemy3->createHermiteShape(controlPoints, vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	enemy3->setXShiftValue(enemy1->getXShiftValue());
 	enemy3->setYShiftValue((float)height - enemy1->getYShiftValue());
 
-	Entity* enemy4 = new Entity();
+	Entity* enemy4 = new Entity();		// In alto a destra
 	enemy4->createHermiteShape(controlPoints, vec3(0.0f, 0.2f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	enemy4->setXShiftValue(enemy2->getXShiftValue());
 	enemy4->setYShiftValue((float)height - enemy2->getYShiftValue());

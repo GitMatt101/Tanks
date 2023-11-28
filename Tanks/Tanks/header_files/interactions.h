@@ -3,6 +3,7 @@
 
 extern Player* player;
 extern vector<Entity*> walls;
+extern vector<Entity*> enemies;
 
 extern const int width;
 extern const int height;
@@ -12,3 +13,5 @@ void keyboard(unsigned char key, int x, int y);
 void mouseMovement(int x, int y);
 
 bool checkWallCollision(Entity* entity, float xShift, float yShift);
+
+bool checkEnemyCollision(Entity* entity);

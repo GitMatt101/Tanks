@@ -61,6 +61,7 @@ void shiftLeft(int index)
 void update(int value)
 {
 	int i = 0;
+	//if (checkEnemyCollision(player));	// TO DO
 	for (Projectile* projectile : player->getProjectiles())
 	{
 		if (!projectile->isInScene())
@@ -74,7 +75,8 @@ void update(int value)
 			projectile->updatePosition();
 			if (projectile->getNumberOfBounces() > 2 || 
 				(projectile->getXShiftValue() > (float)width || projectile->getXShiftValue() < 0.0f
-				|| projectile->getYShiftValue() > (float)height || projectile->getYShiftValue() < 0.0f))
+				|| projectile->getYShiftValue() > (float)height || projectile->getYShiftValue() < 0.0f)
+				|| checkEnemyCollision(projectile))
 			{
 				shiftLeft(i);
 				player->removeProjectile(i);
