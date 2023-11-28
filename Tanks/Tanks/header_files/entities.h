@@ -75,6 +75,7 @@ class Player : public Entity {
 		Entity* cannon;
 		Entity* cockpit;
 		vector<Projectile*> projectiles;
+		bool alive;
 
 	public:
 		Player();
@@ -84,6 +85,8 @@ class Player : public Entity {
 		void shoot();
 		void removeProjectile(int index);
 		void rotateHitbox();
+		bool isAlive();
+		void die();
 
 };
 

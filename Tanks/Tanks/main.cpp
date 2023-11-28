@@ -61,7 +61,8 @@ void shiftLeft(int index)
 void update(int value)
 {
 	int i = 0;
-	//if (checkEnemyCollision(player));	// TO DO
+	if (checkEnemyCollision(player))
+		player->die();
 	for (Projectile* projectile : player->getProjectiles())
 	{
 		if (!projectile->isInScene())
@@ -90,7 +91,8 @@ void update(int value)
 	for (vector<Entity*>* container : scene)
 		for (Entity* entity : *container)
 			entity->updateVAO();
-	glutTimerFunc(17, update, 0);
+	if (player->isAlive() && enemies.size() > 0)
+		glutTimerFunc(17, update, 0);
 	glutPostRedisplay();
 }
 

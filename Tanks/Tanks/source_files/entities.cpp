@@ -226,6 +226,7 @@ Hitbox Entity::getHitboxWorldCoordinates()
 
 Player::Player() 
 {
+	alive = true;
 	vec4 color1 = vec4(0.0f, 0.2f, 0.0f, 1.0f);
 	vec4 color2 = vec4(0.6f, 0.2f, 0.2f, 1.0f);
 	vec3 center = vec3(0.0f, 0.0f, 0.0f);
@@ -275,6 +276,16 @@ void Player::rotateHitbox()
 	model = rotate(model, radians(-90.0f), vec3(0.0f, 0.0f, 1.0f));
 	hitbox.cornerTop = model * t1;
 	hitbox.cornerBot = model * b1;
+}
+
+bool Player::isAlive()
+{
+	return alive;
+}
+
+void Player::die()
+{
+	alive = false;
 }
 
 
