@@ -144,7 +144,10 @@ void drawScene(void)
 		gameOver((char*)"YOU WIN");
 	else if (!player->isAlive())
 		gameOver((char*)"YOU LOSE");
+	string str = "Enemies left: " + to_string(enemies.size());
+	renderText(programID_text, Projection, str, textVAO, textVBO, width - 12.0f * str.length(), height - walls[0]->getHeight() * walls[0]->getYScaleValue() * 2 - 10.0f, 0.5f, vec3(1.0f, 0.0f, 0.0f));
 	glutSwapBuffers();
+	glUseProgram(programID);
 }
 
 int main(int argc, char* argv[])
