@@ -42,6 +42,9 @@
     <ClCompile Include="source_files\VAO_manager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="source_files\textCreator.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header_files\entities.h">
@@ -69,6 +72,9 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="header_files\VAO_manager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="header_files\textCreator.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

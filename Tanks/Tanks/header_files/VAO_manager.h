@@ -5,3 +5,5 @@
 void initShapeVAO(Entity* entity);
 
 void updateShapeVAO(Entity* entity);
+
+void initTextVAO(GLuint* textVAO, GLuint* textVBO);

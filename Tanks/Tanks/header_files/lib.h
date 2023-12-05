@@ -14,6 +14,7 @@
 #include "entities.h"
 #include "interactions.h"
 #include "scene_builder.h"
+#include "textCreator.h"
  
 using namespace glm;
 using namespace std;

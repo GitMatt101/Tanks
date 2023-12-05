@@ -27,6 +27,7 @@
     <ClCompile Include="source_files\scene_builder.cpp" />
     <ClCompile Include="source_files\ShaderMaker.cpp" />
     <ClCompile Include="source_files\shape_reader.cpp" />
+    <ClCompile Include="source_files\textCreator.cpp" />
     <ClCompile Include="source_files\VAO_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -38,6 +39,7 @@
     <ClInclude Include="header_files\scene_builder.h" />
     <ClInclude Include="header_files\ShaderMaker.h" />
     <ClInclude Include="header_files\shape_reader.h" />
+    <ClInclude Include="header_files\textCreator.h" />
     <ClInclude Include="header_files\VAO_manager.h" />
   </ItemGroup>
   <ItemGroup>

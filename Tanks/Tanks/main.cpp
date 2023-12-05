@@ -9,7 +9,9 @@
 const int width = 1280;
 const int height = 720;
 
-static unsigned int programId;
+static unsigned int programID, programID_text;
+
+GLuint textVAO, textVBO;
 
 mat4 Projection;
 GLuint MatProj, MatModel;
@@ -27,8 +29,14 @@ void INIT_SHADER(void)
 	GLenum ErrorCheckValue = glGetError();
 	char* vertexShader = (char*)"vertexShader_M.glsl";
 	char* fragmentShader = (char*)"fragmentShader_M.glsl";
-	programId = ShaderMaker::createProgram(vertexShader, fragmentShader);
-	glUseProgram(programId);
+	programID = ShaderMaker::createProgram(vertexShader, fragmentShader);
+	glUseProgram(programID);
+
+	//Generazione del program shader per la gestione del testo
+	vertexShader = (char*)"vertexShader_Text.glsl";
+	fragmentShader = (char*)"fragmentShader_Text.glsl";
+
+	programID_text = ShaderMaker::createProgram(vertexShader, fragmentShader);
 }
 
 void INIT_VAO(void)
@@ -45,8 +53,8 @@ void INIT_VAO(void)
 			entity->initVAO();
 
 	Projection = ortho(0.0f, float(width), 0.0f, float(height));
-	MatProj = glGetUniformLocation(programId, "Projection");
-	MatModel = glGetUniformLocation(programId, "Model");
+	MatProj = glGetUniformLocation(programID, "Projection");
+	MatModel = glGetUniformLocation(programID, "Model");
 
 	glViewport(0, 0, width, height);
 }
@@ -56,6 +64,12 @@ void shiftLeft(int index)
 	for (int i = index; i < projectiles.size() - 1; i++)
 		projectiles[i] = projectiles[i + 1];
 	projectiles.pop_back();
+}
+
+void gameOver(char* text)
+{
+	string str(text);
+	renderText(programID_text, Projection, str, textVAO, textVBO, width / 2 - 25.0f * str.length() / 2, height / 2, 1.0f, vec3(1.0f, 0.0f, 0.0f));
 }
 
 void update(int value)
@@ -115,6 +129,10 @@ void drawScene(void)
 			glBindVertexArray(0);
 		}
 	}
+	if (player->isAlive() && enemies.size() == 0)
+		gameOver((char*)"YOU WIN");
+	else if (!player->isAlive())
+		gameOver((char*)"YOU LOSE");
 	glutSwapBuffers();
 }
 
@@ -132,6 +150,8 @@ int main(int argc, char* argv[])
 	glewInit();
 	INIT_SHADER();
 	INIT_VAO();
+	initTextVAO(&textVAO, &textVBO);
+	initFreetype();
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glutTimerFunc(17, update, 0);
