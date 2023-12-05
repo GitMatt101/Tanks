@@ -17,9 +17,9 @@ Entity::Entity()
 	rotationValue = 0.0f;
 }
 
-void Entity::createPolygonalShape(vector<vec3> polygonVertices, vec3 center, vec4 color1, vec4 color2)
+void Entity::createPolygonalShape(vector<vec3> polygonVertices, vec4 color1, vec4 color2)
 {
-	vertices.push_back(center);
+	vertices.push_back(vec3(0.0f, 0.0f, 0.0f));
 	colors.push_back(color2);
 	float xMin = polygonVertices[0].x;
 	float yMin = polygonVertices[0].y;
@@ -229,13 +229,12 @@ Player::Player()
 	alive = true;
 	vec4 color1 = vec4(0.0f, 0.2f, 0.0f, 1.0f);
 	vec4 color2 = vec4(0.6f, 0.2f, 0.2f, 1.0f);
-	vec3 center = vec3(0.0f, 0.0f, 0.0f);
-	createPolygonalShape(createRectangle(1.2f, 2.0f), center, color1, color2);
+	createPolygonalShape(createRectangle(1.2f, 2.0f), color1, color2);
 	cannon = new Entity();
 	cockpit = new Entity();
-	cannon->createPolygonalShape(createRectangle(0.2f, 1.6f), vec3(0.0f, 0.0f, 0.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f));
+	cannon->createPolygonalShape(createRectangle(0.2f, 1.6f), vec4(0.3f, 0.3f, 0.3f, 1.0f), vec4(0.3f, 0.3f, 0.3f, 1.0f));
 	cannon->setYShiftValue((cannon->getHitbox().cornerTop.y - cannon->getHitbox().cornerBot.y) / 2 * cannon->getYScaleValue());
-	cockpit->createPolygonalShape(createCircle(vec3(0.0f, 0.0f, 0.0f), 0.3f, 0.3f, 100), vec3(0.0f, 0.0f, 0.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f));
+	cockpit->createPolygonalShape(createCircle(0.3f, 0.3f, 100), vec4(0.0f, 0.3f, 0.0f, 1.0f), vec4(0.0f, 0.3f, 0.0f, 1.0f));
 }
 
 Entity* Player::getCannon()

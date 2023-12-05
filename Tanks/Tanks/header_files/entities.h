@@ -30,7 +30,6 @@ class Entity {
 		GLuint VBO_C;
 		vector<vec3> vertices;
 		vector<vec4> colors;
-		int nCP;					// Numero massimo di punti di controllo (punti di interpolazione)
 		mat4 model;					// Matrice di modellazione: traslazione * rotazione * scala
 		float xShiftValue;			// Valore di traslazione per la x
 		float yShiftValue;			// Valore di traslazione per la y
@@ -40,7 +39,7 @@ class Entity {
 
 	public:
 		Entity();
-		void createPolygonalShape(vector<vec3> polygonVertices, vec3 center, vec4 color1, vec4 color2);
+		void createPolygonalShape(vector<vec3> polygonVertices, vec4 color1, vec4 color2);
 		void createHermiteShape(vector<vec3> controlPoints, vec3 center, vec4 color1, vec4 color2);
 		void initVAO();
 		void updateVAO();

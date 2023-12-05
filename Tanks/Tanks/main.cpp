@@ -21,6 +21,7 @@ vector<Entity*> projectiles;
 vector<Entity*> walls;
 vector<Entity*> enemies;
 vector<vector<Entity*>*> scene;
+vector<Entity*> lives;
 
 Player* player = new Player();
 
@@ -44,10 +45,14 @@ void INIT_VAO(void)
 	playerComponents = createPlayer(player);
 	walls = createWalls(1.0f, 0.4f);
 	enemies = createEnemies((char*)"enemy.txt");
+	lives = createLives(3, 0.05f, 0.4f * walls[0]->getYScaleValue());
+
 	scene.push_back(&playerComponents);
 	scene.push_back(&walls);
 	scene.push_back(&projectiles);
 	scene.push_back(&enemies);
+	scene.push_back(&lives);
+
 	for (vector<Entity*>* container : scene)
 		for (Entity* entity : *container)
 			entity->initVAO();
@@ -69,14 +74,20 @@ void shiftLeft(int index)
 void gameOver(char* text)
 {
 	string str(text);
-	renderText(programID_text, Projection, str, textVAO, textVBO, width / 2 - 25.0f * str.length() / 2, height / 2, 1.0f, vec3(1.0f, 0.0f, 0.0f));
+	renderText(programID_text, Projection, str, textVAO, textVBO, width / 2 - 30.0f * str.length() / 2, height / 2 - 10.0f, 1.0f, vec3(1.0f, 0.0f, 0.0f));
 }
 
 void update(int value)
 {
 	int i = 0;
 	if (checkEnemyCollision(player))
-		player->die();
+	{
+		Entity* heart = lives[lives.size() - 1];
+		lives.pop_back();
+		delete(heart);
+		if (lives.size() == 0)
+			player->die();
+	}
 	for (Projectile* projectile : player->getProjectiles())
 	{
 		if (!projectile->isInScene())
