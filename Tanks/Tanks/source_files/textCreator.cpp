@@ -10,19 +10,11 @@ map<GLchar, Character> characters;
 
 void initFreetype() {
 	FT_Library ft;
-
 	if (FT_Init_FreeType(&ft))
-	{
-		printf("ERROR::FREETYPE: Could not init FreeType Library");
 		exit(-1);
-	}
-
 	FT_Face face;
 	if (FT_New_Face(ft, "fonts/arial.ttf", 0, &face))
-	{
-		printf("ERROR::FREETYPE: Failed to load font\n");
 		exit(-1);
-	}
 	else
 	{
 		FT_Set_Pixel_Sizes(face, 0, 48);			// set size to load glyphs as
@@ -33,10 +25,7 @@ void initFreetype() {
 		{
 			// Load character glyph 
 			if (FT_Load_Char(face, c, FT_LOAD_RENDER))
-			{
-				printf("ERROR::FREETYTPE: Failed to load Glyph \n");
 				continue;
-			}
 			// generate texture
 			unsigned int texture;
 			glGenTextures(1, &texture);
@@ -76,10 +65,8 @@ void renderText(int programID, mat4 textProjectionMatrix, string text, unsigned 
 	for (index = text.begin(); index != text.end(); index++)
 	{
 		Character ch = characters[*index];
-
 		float xpos = x + ch.Bearing.x * scale;
 		float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
-
 		float w = ch.Size.x * scale;
 		float h = ch.Size.y * scale;
 		// update VBO for each character
