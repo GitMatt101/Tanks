@@ -12,7 +12,7 @@ const int height = 720;
 static unsigned int programID, programID_text;
 
 GLuint textVAO, textVBO;
-GLuint backgroundDisplay, resolution, color1, color2;
+GLuint backgroundDisplay, resolution, color1, color2, currentFrame;
 const vec3 c1(0.75f, 0.6f, 0.5f);
 const vec3 c2(0.6f, 0.6f, 0.6f);
 
@@ -79,6 +79,7 @@ void INIT_VAO(void)
 	resolution = glGetUniformLocation(programID, "resolution");
 	color1 = glGetUniformLocation(programID, "color1");
 	color2 = glGetUniformLocation(programID, "color2");
+	currentFrame = glGetUniformLocation(programID, "time");
 
 	glViewport(0, 0, width, height);
 }
@@ -163,6 +164,7 @@ void drawScene(void)
 				glUniform1i(backgroundDisplay, 1);
 			else
 				glUniform1i(backgroundDisplay, 0);
+			glUniform1f(currentFrame, glutGet(GLUT_ELAPSED_TIME) / 1000.0f);
 			glBindVertexArray(*entity->getVAO());
 			glDrawArrays(GL_TRIANGLE_FAN, 0, entity->getNumberOfVertices());
 			glBindVertexArray(0);

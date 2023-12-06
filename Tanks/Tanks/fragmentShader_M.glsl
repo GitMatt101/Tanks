@@ -6,13 +6,15 @@ uniform vec2 resolution;
 uniform int background;
 uniform vec3 color1;
 uniform vec3 color2;
+uniform float time;
 
 bool isInRectangle(float left, float right, float bottom, float top, float thickness, float x, float y)
 {
 	bool result = true;
-	if (!(x > left - thickness && x < right + thickness))
+	float animationValue = thickness;
+	if (!(x > left - cos(time) * animationValue - thickness && x < right + cos(time) * animationValue + thickness))
 		result = false;
-	if (!(y > bottom - thickness && y < top + thickness))
+	if (!(y > bottom - cos(time) * animationValue - thickness && y < top + cos(time) * animationValue + thickness))
 		result = false;
 	if (result && (x > left && x < right) && (y > bottom && y < top))
 		result = false;
