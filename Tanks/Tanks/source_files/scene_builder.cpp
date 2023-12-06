@@ -18,7 +18,7 @@ vector<Entity*> createPlayer(Player* player)
 
 vector<Entity*> createWalls(float dim1, float dim2)
 {
-	vec4 grey = vec4(0.6f, 0.6f, 0.6f, 1.0f);
+	vec4 grey = vec4(0.3f, 0.3f, 0.3f, 1.0f);
 
 	Entity* bottomWall = new Entity();
 	bottomWall->createPolygonalShape(createRectangle(dim1, dim2), grey, grey);
@@ -131,7 +131,7 @@ vector<Entity*> createLives(float numberOfLives, float radius, float wallThickne
 	{
 		heart->createPolygonalShape(createHeart(radius, radius, 100), red, red);
 		heart->setYShiftValue((float)height - heart->getHeight() / 2 * heart->getYScaleValue() - wallThickness);
-		heart->setXShiftValue(wallThickness + heart->getWidth() / 2 * heart->getXScaleValue() + i * (heart->getWidth() * heart->getXScaleValue() + 5.0f));
+		heart->setXShiftValue(wallThickness + 5.0f + heart->getWidth() / 2 * heart->getXScaleValue() + i * (heart->getWidth() * heart->getXScaleValue() + 5.0f));
 		i++;
 	}
 	return lives;

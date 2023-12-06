@@ -12,6 +12,9 @@ const int height = 720;
 static unsigned int programID, programID_text;
 
 GLuint textVAO, textVBO;
+GLuint backgroundDisplay, resolution, color1, color2;
+const vec3 c1(0.75f, 0.6f, 0.5f);
+const vec3 c2(0.6f, 0.6f, 0.6f);
 
 mat4 Projection;
 GLuint MatProj, MatModel;
@@ -22,6 +25,7 @@ vector<Entity*> walls;
 vector<Entity*> enemies;
 vector<vector<Entity*>*> scene;
 vector<Entity*> lives;
+vector<Entity*> background;
 
 Player* player = new Player();
 
@@ -47,6 +51,17 @@ void INIT_VAO(void)
 	enemies = createEnemies((char*)"enemy.txt");
 	lives = createLives(3, 0.05f, 0.4f * walls[0]->getYScaleValue());
 
+	Entity* backgroundPane = new Entity();
+	backgroundPane->createPolygonalShape(createRectangle(2.0f, 2.0f), vec4(0.0f, 0.0f, 0.0f, 0.0f), vec4(0.0f, 0.0f, 0.0f, 0.0f));
+	backgroundPane->setXScaleValue((float)width);
+	backgroundPane->setYScaleValue((float)height);
+	backgroundPane->setXShiftValue((float)width / 2);
+	backgroundPane->setYShiftValue((float)height / 2);
+	backgroundPane->changePane();
+
+	background.push_back(backgroundPane);
+
+	scene.push_back(&background);
 	scene.push_back(&playerComponents);
 	scene.push_back(&walls);
 	scene.push_back(&projectiles);
@@ -60,6 +75,10 @@ void INIT_VAO(void)
 	Projection = ortho(0.0f, float(width), 0.0f, float(height));
 	MatProj = glGetUniformLocation(programID, "Projection");
 	MatModel = glGetUniformLocation(programID, "Model");
+	backgroundDisplay = glGetUniformLocation(programID, "background");
+	resolution = glGetUniformLocation(programID, "resolution");
+	color1 = glGetUniformLocation(programID, "color1");
+	color2 = glGetUniformLocation(programID, "color2");
 
 	glViewport(0, 0, width, height);
 }
@@ -125,6 +144,10 @@ void drawScene(void)
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	glUniform3f(color1, c1.r, c1.g, c1.b);
+	glUniform3f(color2, c2.r, c2.g, c2.b);
+
 	for (vector<Entity*>* container : scene)
 	{
 		for (Entity* entity : *container)
@@ -135,6 +158,11 @@ void drawScene(void)
 			*entity->getModel() = rotate(*entity->getModel(), radians(entity->getRotationValue()), vec3(0.0f, 0.0f, 1.0f));
 			glUniformMatrix4fv(MatProj, 1, GL_FALSE, value_ptr(Projection));
 			glUniformMatrix4fv(MatModel, 1, GL_FALSE, value_ptr(*entity->getModel()));
+			glUniform2f(resolution, width, height);
+			if (entity->isBackgroundComponent())
+				glUniform1i(backgroundDisplay, 1);
+			else
+				glUniform1i(backgroundDisplay, 0);
 			glBindVertexArray(*entity->getVAO());
 			glDrawArrays(GL_TRIANGLE_FAN, 0, entity->getNumberOfVertices());
 			glBindVertexArray(0);

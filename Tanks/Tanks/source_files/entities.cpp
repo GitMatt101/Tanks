@@ -10,6 +10,7 @@
 
 Entity::Entity()
 {
+	backgroundComponent = false;
 	xShiftValue = 0.0f;
 	yShiftValue = 0.0f;
 	xScaleValue = DEFAULT_SIZE;
@@ -220,6 +221,16 @@ Hitbox Entity::getHitboxWorldCoordinates()
 	float xTop = (float)width / 2 + hitbox.cornerTop.x * xScaleValue + xShiftValue;
 	float yTop = (float)height / 2 + hitbox.cornerTop.y * yScaleValue + yShiftValue;
 	return { vec3(xBottom, yBottom, 0.0f), vec3(xTop, yTop, 0.0f) };
+}
+
+bool Entity::isBackgroundComponent()
+{
+	return backgroundComponent;
+}
+
+void Entity::changePane()
+{
+	backgroundComponent = !backgroundComponent;
 }
 
 

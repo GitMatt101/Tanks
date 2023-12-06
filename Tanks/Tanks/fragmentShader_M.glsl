@@ -1,12 +1,42 @@
 #version 330 core
-in vec4 ourColor;
-out vec4 FragColor;  
+in vec4 color;
+out vec4 fragColor;
+
+uniform vec2 resolution;
+uniform int background;
+uniform vec3 color1;
+uniform vec3 color2;
+
+bool isInRectangle(float left, float right, float bottom, float top, float thickness, float x, float y)
+{
+	bool result = true;
+	if (!(x > left - thickness && x < right + thickness))
+		result = false;
+	if (!(y > bottom - thickness && y < top + thickness))
+		result = false;
+	if (result && (x > left && x < right) && (y > bottom && y < top))
+		result = false;
+	return result;
+}
    
 void main()
 {
-         FragColor = vec4(ourColor);
-     
+	float numberOfStripes = 40.0f;
+	if (background == 0)
+		fragColor = color;
+	else
+	{
+		vec2 ndc = vec2 ((gl_FragCoord.x / resolution.x- 0.5) * 2, (gl_FragCoord.y / resolution.y - 0.5) * 2);
+		float step = 1 / numberOfStripes;
+		for (int i = 0; i < numberOfStripes; i+=2)
+		{
+			if (isInRectangle(-i * step, i * step, -i * step, i * step, step, ndc.x, ndc.y))
+			{
+				fragColor = vec4(color1, 1.0f);
+				break;
+			}
+			else
+				fragColor = vec4(color2, 1.0f);
+		}
+	}
 }
-
-
- 

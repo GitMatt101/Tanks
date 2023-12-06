@@ -36,6 +36,7 @@ class Entity {
 		float xScaleValue;			// Valore di scalatura per la x
 		float yScaleValue;			// Valore di scalatura per la y
 		float rotationValue;		// Valore di rotazione
+		bool backgroundComponent;	// true se fa parte dello sfondo, false altrimenti
 
 	public:
 		Entity();
@@ -65,6 +66,8 @@ class Entity {
 		float getWidth();
 		float getHeight();
 		Hitbox getHitboxWorldCoordinates();
+		bool isBackgroundComponent();
+		void changePane();
 
 };
 
